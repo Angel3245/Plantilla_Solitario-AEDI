@@ -23,12 +23,24 @@ public class ES
     
         
     public static int pideNumero(String mensaje)
-    {
+    {   
+        boolean repite;
+        int toret = -1;
         
-            System.out.print(mensaje);
+        do{
+            try{
+                repite = false;
+                System.out.print(mensaje);
 
-            // Pedir
-            return Integer.parseInt(leer.nextLine());
-       
+                // Pedir
+                toret = Integer.parseInt(leer.nextLine());
+            }
+            catch(NumberFormatException exc){
+                repite = true;
+                System.err.println(exc.getMessage());
+            }
+        }while(repite == true);
+        
+       return toret;
     }
 }
