@@ -62,8 +62,8 @@ public class Baraja {
         //Saca la carta de la parte superior
         public Carta getCarta(){
         
-            Carta c = baraja.get(0);
-            baraja.remove(0);
+            Carta c = baraja.get(baraja.size()-1);
+            baraja.remove(baraja.size()-1);
         
             return c;
         }
