@@ -26,8 +26,8 @@ public class Baraja {
                 if(i == 8){
                  i = 10;
                 }    
-                    
-                Carta c = new Carta(i,p,false);
+                //Las cartas se crean boca abajo    
+                Carta c = new Carta(i,p,true);
                 
                 baraja.add(c);
                 //Muestro todas las cartas para comprobar su numero
