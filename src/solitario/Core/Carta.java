@@ -52,14 +52,24 @@ public class Carta {
         StringBuilder toret = new StringBuilder();
     
         toret.append("[");
+        
         if(oculta == true){
             toret.append("X");
         
         }else{
         
-            toret.append(numero);
+            switch(numero){
+                case 10: toret.append("SOTA");
+                break;
+                case 11: toret.append("CABALLO");
+                break;
+                case 12: toret.append("REY");
+                break;
+                default: toret.append(numero);
+                break;
+            
+            }
             toret.append(" " + palo);
-        
         }
         
         toret.append("]");
