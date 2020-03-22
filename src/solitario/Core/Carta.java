@@ -47,6 +47,11 @@ public class Carta {
         this.oculta = ocult;
     }
     
+    //Cambia el estado de la carta a su contrario
+    public void voltear(){
+        this.oculta = !this.oculta;
+    }
+    
     @Override
     public String toString(){
         StringBuilder toret = new StringBuilder();
