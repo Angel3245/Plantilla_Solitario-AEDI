@@ -9,16 +9,17 @@ package solitario.IU;
  *
  * @author AEDI
  */
-public class Solitario {
-    
+public class Solitario {      
 
-    public static void inicioPartida(){
+    public static void menuInicio(){
+        
         int op;
         boolean repite;
 
         // Bucle ppal
         try{
             do {
+                
                 System.out.println( "\nSOLITARIO" );
 
                 op = menu();
@@ -38,12 +39,14 @@ public class Solitario {
                         break;
 
                     default:
-                        System.out.println( "La opción introducida no es correcta ( " 
-                                            + op + " )" );
+                        System.out.println( "La opción introducida no es correcta ( " + op + " )" );
                 }
-            } while( op != 0 );
+                
+            }while( op != 0 );            
         }
+        
         catch(Exception exc){
+            
             System.err.println(exc.getMessage());
         }
     } 
@@ -52,8 +55,8 @@ public class Solitario {
      * Presenta un menu con las opciones, y permite seleccionar una.
      * @return la opcion seleccionada, como entero
      */
-    private static int menu()
-    {
+    private static int menu(){
+        
         int toret;
 
         do {
@@ -63,6 +66,7 @@ public class Solitario {
                             + "3. Créditos\n"
                             + "0. Salir\n" );
             toret = ES.pideNumero( "Selecciona: " );
+            
         } while( toret < 0
               && toret > 4 );
 
@@ -74,8 +78,8 @@ public class Solitario {
      * Muestra por pantalla las reglas del juego.
      * @return las reglas por pantalla
      */
-    private static void reglas()
-    {
+    private static void reglas(){
+        
         System.out.println("\nOBJETIVO:"
                 + "\nEl objetivo es ir quitando las cartas de la zona-interior"
                 + "\nde menor a mayor colocándolas en cuatro montones exteriores, "
@@ -98,8 +102,8 @@ public class Solitario {
      * Muestra por pantalla los créditos del juego.
      * @return los créditos por pantalla
      */
-    private static void creditos()
-    {
+    private static void creditos(){
+        
         System.out.println("\nCRÉDITOS:");
     }
 }

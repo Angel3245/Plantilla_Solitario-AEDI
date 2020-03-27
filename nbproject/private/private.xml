@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/Core/Jugador.java</file>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/IU/ES.java</file>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/IU/Solitario.java</file>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/IU/Main.java</file>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/Core/Baraja.java</file>
-            <file>file:/C:/Users/Angel/Documents/AEDI/Plantilla_Solitario/src/solitario/Core/Carta.java</file>
+            <file>file:/D:/Usuario/Yelucloud/ESEI-DOC/AEDI_6/Proyecto_Solitario/src/solitario/Core/Carta.java</file>
+            <file>file:/D:/Usuario/Yelucloud/ESEI-DOC/AEDI_6/Proyecto_Solitario/src/solitario/Core/Palos.java</file>
+            <file>file:/D:/Usuario/Yelucloud/ESEI-DOC/AEDI_6/Proyecto_Solitario/src/solitario/Core/Jugador.java</file>
+            <file>file:/D:/Usuario/Yelucloud/ESEI-DOC/AEDI_6/Proyecto_Solitario/src/solitario/Core/Mesa.java</file>
+            <file>file:/D:/Usuario/Yelucloud/ESEI-DOC/AEDI_6/Proyecto_Solitario/src/solitario/Core/Baraja.java</file>
         </group>
     </open-files>
 </project-private>

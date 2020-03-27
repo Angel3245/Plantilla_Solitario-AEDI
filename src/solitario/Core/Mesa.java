@@ -33,9 +33,10 @@ import java.util.Stack;
 public class Mesa {
     
    private Stack<Carta> [][] montonInterior;
-    private Stack<Carta> [] montonExterior;
+   private Stack<Carta> [] montonExterior;
 
-    public Mesa() {                                 //Constructor pilas vacias
+    public Mesa() {                      //Constructor pilas vacias (Mesa vacia)
+        
         for(int i=0 ; i<4 ; i++){
             for(int j=0 ; j<4 ; j++){
                 montonInterior[i][j]=null;
@@ -43,43 +44,49 @@ public class Mesa {
         }
         for(int k=0; k<4 ; k++){
             montonExterior=null;
-        }
+        }       
+        
+        
+        inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
     }
 
-    public Stack<Carta>[][] inicio(Baraja baraja){              //metmos las cartas en las pilas desde baraja-podrias ser el contructor??
+    public void inicio(){              //Metodo que crea la baraja y rellena la mesa
         
-        for(int k=0 ; k<2 ; k++){                   //las dos primeras capas de la matriz
-            for(int i=0 ; i<4 ; i++){
-                for(int j=0 ; j<4 ; j++){
-                    Carta x = baraja.getCarta();              // teoricamente aqui coje quita la ultima carta de la baraja(entiendo que barajada)* 
-                    montonInterior[i][j].push(x);  // *y la pone en la posición de la matriz.pila
-               
-                }
+        Baraja baraja = new Baraja();   //Creamos la baraja de la mesa
+        
+        for(int i=0 ; i<4 ; i++){               //Coloca las cartas iniciales
+            for(int j=0 ; j<4 ; j++){
+                Carta x = baraja.getCarta();    //Saca una carta de la baraja
+                montonInterior[i][j].push(x);   //La pone en la posición de la matriz.pila
             }
         }
-        Carta a = baraja.getCarta();                     //estasson las posiciones restantes de las diagonales*
-        montonInterior[0][0].push(a);         //* que no se me ocurre como ponerlas de mejor manera
-        Carta b = baraja.getCarta();
-        montonInterior[0][3].push(b);
-        Carta c = baraja.getCarta();
-        montonInterior[1][1].push(c);
-        Carta d = baraja.getCarta();
-        montonInterior[1][2].push(d);
-        Carta e = baraja.getCarta();
-        montonInterior[2][1].push(e);
-        Carta f = baraja.getCarta();
-        montonInterior[2][2].push(f);
-        Carta g = baraja.getCarta();
-        montonInterior[3][0].push(g);
-        Carta h = baraja.getCarta();
-        montonInterior[3][3].push(h);
         
-        return montonInterior;
+        for (int i = 0; i < 4; i++) {           //Colocamos las cartas en la diagonal ([0,0] hasta [3,3])
+            
+            Carta a = baraja.getCarta();        //Saca una carta de la baraja
+            montonInterior[i][i].push(a);       //La pone en la posición de la matriz.pila            
+        }
+        
+        for (int i = 0; i < 4; i++) {           //Colocamos las cartas en la diagonal ([0,3] hasta [3,0])
+            
+            Carta a = baraja.getCarta();        //Saca una carta de la baraja
+            montonInterior[i][3-i].push(a);     //La pone en la posición de la matriz.pila            
+        }       
+
+        
+        for(int i=0 ; i<4 ; i++){               //Coloca las cartas boca arriba
+            for(int j=0 ; j<4 ; j++){
+                Carta x = baraja.getCarta();    //Saca una carta de la baraja
+                x.voltear();                    //Le da la vuelta a la carta antes de añadirla (Para poder ver cual es)
+                montonInterior[i][j].push(x);   //La pone en la posición de la matriz.pila
+            }
+        }
     }
 
+    
     public Stack<Carta>[][] getMontonInterior() {
         return montonInterior;
-    }                                                //tal vez que los setter y getter no hacen falta
+    }
 
     public Stack<Carta>[] getMontonExterior() {
         return montonExterior;
@@ -93,18 +100,30 @@ public class Mesa {
         this.montonExterior = montonExterior;
     }
     
-    public void movInterior(){              //movimientos solo en de monton interno a monton interno
-                                            // pido posicion o pido num de carta y palo????
+    public Carta sacarCarta(int i, int j){  //Metodo que saca la primera carta de un monton
+    
+        return montonInterior[i][j].pop();
     }
     
-    public void movIntToExt(){              //movimientos del monton interior al exterior/misma pregunta que antes
+    public void moverExterior(Carta c,int posicion){        //Movemos la carta que se pasa como parametro al monton exterior en la posicion pasada como parametro
+    
+        montonExterior[posicion].push(c);   
+        
+    }
+    public void moverInterior(Carta c,int i, int j){        //Movemos la carta que se pasa como parametro al monton interior en la posicion pasada como parametro
+    
+        montonInterior[i][j].push(c);
+    }
+    
+    public void voltear(int i, int j){
+    
+        montonInterior[i][j].peek().voltear();      //Da la vuelta a la primera carta del monton pasado como parametro
         
     }
 
     
     public String toString() {
         StringBuilder toret= new StringBuilder();
-        toret.append("Montón Interior:\n");
         for(int i=0 ; i<4 ; i++){
         	for(int j=0 ; j<4 ; j++){
                 	toret.append(montonInterior[i][j]).append("\t");
@@ -112,14 +131,6 @@ public class Mesa {
             	toret.append("\n");
         }
         
-        toret.append("\nMontón Exterior:\n");
-        for(int k=0 ; k<4 ; k++){
-                toret.append(montonExterior[k]).append("\t");       
-        }
         return toret.toString();
-    }
-    
-    
-   
-    
+    }  
 }
