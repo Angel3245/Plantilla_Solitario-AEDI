@@ -4,6 +4,9 @@
  */
 package solitario.IU;
 
+import solitario.Core.Jugador;
+import solitario.Core.Mesa;
+
 
 /**
  *
@@ -29,7 +32,7 @@ public class Solitario {
                         System.out.println( "Fin." );
                         break;
                     case 1:
-                        //juego();
+                        inicioPartida();
                         break;
                     case 2:
                         reglas();
@@ -47,7 +50,7 @@ public class Solitario {
         
         catch(Exception exc){
             
-            System.err.println(exc.getMessage());
+            System.err.println(exc);
         }
     } 
 
@@ -106,4 +109,23 @@ public class Solitario {
         
         System.out.println("\nCRÉDITOS:");
     }
-}
+    
+    private static void inicioPartida(){
+    
+        //String nombre = ES.pideCadena("Introduce tu nombre: ");
+        
+        //Jugador j1 = new Jugador(nombre);
+        
+        Jugador j1 = new Jugador("solitario");
+        
+        Mesa mesa = new Mesa();
+        
+        System.out.println(mesa);
+    
+    
+    }
+    
+    
+    
+    
+}   
