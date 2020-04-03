@@ -30,12 +30,14 @@ import java.util.Stack;
  * @author AEDI
  */
 public class Mesa {
-
+    
+    private final int DIM = 4;
+    
     private Stack<Carta>[][] montonInterior;
     private Stack<Carta>[] montonExterior;
     //Movimientos posibles
     private int movimientos;
-    private final int DIM = 4;
+    
 
     public Mesa() {                      //Constructor pilas vacias (Mesa vacia)
 
@@ -96,9 +98,8 @@ public class Mesa {
 
         //Comprobamos que no esté ninguna carta boca abajo
         for (int i = 0; i < DIM; i++) {
-            for (int j = 0; i < DIM; j++) {
-
-                if (montonInterior[i][j].peek().getOculta()) {
+            for (int j = 0; j < DIM; j++) {
+                if (!montonInterior[i][j].empty() && montonInterior[i][j].peek().getOculta()) {
                     movimientos++;
 
                 }
@@ -110,22 +111,23 @@ public class Mesa {
         //Movimento del monton Interior al Interior 
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
+                if (!montonInterior[i][j].empty()){
+                    Carta encima = montonInterior[i][j].peek();
 
-                Carta encima = montonInterior[i][j].peek();
+                    if (!encima.getOculta()) {
 
-                if (!encima.getOculta()) {
+                        for (int x = 0; x < DIM; x++) {
+                            for (int y = 0; y < DIM; y++) {
+                                if (!montonInterior[x][y].empty()){
+                                    Carta debajo = montonInterior[x][y].peek();
 
-                    for (int x = 0; x < DIM; x++) {
-                        for (int y = 0; y < DIM; y++) {
-
-                            Carta debajo = montonInterior[x][y].peek();
-
-                            if (!debajo.getOculta() && comprobarMayor(encima, debajo)) {
-                                movimientos++;
+                                    if (!debajo.getOculta() && comprobarMayor(encima, debajo)) {
+                                        movimientos++;
+                                    }
+                                }
                             }
 
                         }
-
                     }
                 }
             }
@@ -135,19 +137,19 @@ public class Mesa {
         //Movimento del monton Interior al Exterior
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
+                if (!montonInterior[i][j].empty()){
+                    Carta encima = montonInterior[i][j].peek();
 
-                Carta encima = montonInterior[i][j].peek();
+                    for (int y = 0; y < DIM; y++) {
+                        if (!montonExterior[y].empty()){
+                            Carta debajo = montonExterior[y].peek();
 
-                for (int y = 0; y < DIM; y++) {
-
-                    Carta debajo = montonExterior[y].peek();
-
-                    if (comprobarMayor(debajo, encima)) {
-                        movimientos++;
+                            if (comprobarMayor(debajo, encima)) {
+                                movimientos++;
+                            }
+                        }
                     }
-
                 }
-
             }
 
         }
@@ -180,6 +182,10 @@ public class Mesa {
 
     public Stack<Carta>[] getMontonExterior() {
         return montonExterior;
+    }
+
+    public int getMovimientos() {
+        return movimientos;
     }
 
     public void setMontonInterior(Stack<Carta>[][] montonInterior) {

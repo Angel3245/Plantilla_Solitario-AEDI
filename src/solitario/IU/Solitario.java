@@ -110,7 +110,7 @@ public class Solitario {
         System.out.println("\nCRÉDITOS:");
     }
     
-    private static void inicioPartida(){
+    private static void inicioPartida() throws Exception{
     
         //String nombre = ES.pideCadena("Introduce tu nombre: ");
         
@@ -120,12 +120,44 @@ public class Solitario {
         
         Mesa mesa = new Mesa();
         
-        System.out.println(mesa);
+        String tipoCarta;
+        int[] coordenadas;
+        
+        while(mesa.hayMovimentos()){
+            System.out.println(mesa); //Mostramos la mesa actual
+            
+            System.out.println("Existen " + mesa.getMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
+            
+            coordenadas = getCoordenadas(ES.pideCadena("Introduce posicion: ")); //Pedimos al usuario que introduzca una posición para realizar un movimiento
+            
+            tipoCarta = j1.comprobarPosicion(coordenadas[0],coordenadas[1],mesa);
+            
+            /*if(tipoCarta.equals("vacía")){
+                System.out.println("No hay cartas en la posición indicada.");
+            }else if(tipoCarta.equals("oculta")){
+                
+            }*/
+            
+            
+            
+        }
     
     
     }
     
-    
+    //Divide la posicion recibida en las coordenadas i, j que devuelve en un array
+    private static int[] getCoordenadas(String posicion) throws Exception{
+        int i,j;
+        
+        i = Character.getNumericValue(posicion.charAt(0));
+        j = posicion.charAt(1) - 64;
+        
+        if((i<0 || i>5) && (j<0 || j>4)){
+            throw new Exception("La posición introducida no es correcta.");
+        }
+        
+        return new int[]{i,j};
+    }
     
     
 }   
