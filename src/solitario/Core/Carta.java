@@ -50,14 +50,14 @@ public class Carta {
         
         if(oculta == true){
             
-            toret.append("X");
+            toret.append("    X    ");
         
         }else{
         
             switch(numero){
                 case 10: toret.append("SOTA");
                 break;
-                case 11: toret.append("CABAL");
+                case 11: toret.append("ASNO");
                 break;
                 case 12: toret.append("REY");
                 break;

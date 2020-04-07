@@ -94,7 +94,7 @@ public class Mesa {
 
         boolean toret = false;
 
-        int mov = 0;
+        this.movimientos = 0;
 
         //Comprobamos que no esté ninguna carta boca abajo
         for (int i = 0; i < DIM; i++) {
@@ -122,6 +122,7 @@ public class Mesa {
                                     Carta debajo = montonInterior[x][y].peek();
 
                                     if (!debajo.getOculta() && comprobarMayor(encima, debajo)) {
+                                        System.out.println("Interior: " + encima.toString() + debajo.toString());
                                         movimientos++;
                                     }
                                 }
@@ -139,13 +140,23 @@ public class Mesa {
             for (int j = 0; j < DIM; j++) {
                 if (!montonInterior[i][j].empty()){
                     Carta encima = montonInterior[i][j].peek();
+                    
+                    if (!encima.getOculta()) {
+                        if(encima.getNumero() == 1){
+                            System.out.println("Exterior: " + encima.toString() );
+                            movimientos++;
+                        }
+                        else{
+                            for (int y = 0; y < DIM; y++) {
+                                if (!montonExterior[y].empty()){
+                                    Carta debajo = montonExterior[y].peek();
 
-                    for (int y = 0; y < DIM; y++) {
-                        if (!montonExterior[y].empty()){
-                            Carta debajo = montonExterior[y].peek();
+                                    if (comprobarMayor(debajo, encima)) {
+                                        System.out.println("Exterior: " + encima.toString() + debajo.toString());
+                                        movimientos++;
+                                    }
+                                }
 
-                            if (comprobarMayor(debajo, encima)) {
-                                movimientos++;
                             }
                         }
                     }
@@ -217,6 +228,17 @@ public class Mesa {
         montonInterior[i][j].peek().voltear();      //Da la vuelta a la primera carta del monton pasado como parametro
 
     }
+    
+    public boolean ganador(){
+        
+        for(int i = 0; i < DIM; i++){
+            if(montonExterior[i].size() != 10){
+                return false;
+            }
+        }
+        
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -236,7 +258,7 @@ public class Mesa {
                     toret.append(montonInterior[i][j].peek()).append("\t");
                 } else {
 
-                    toret.append("Ø\t");
+                    toret.append("     Ø\t\t");
                 }
 
             }

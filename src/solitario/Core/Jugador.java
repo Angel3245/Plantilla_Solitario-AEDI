@@ -24,13 +24,16 @@ public class Jugador {
     // Este metodo retorna "vacia" si la pila esta vacia y "oculta" si la carta de arriba esta boca abajo
     //Este método se utilizara en la clase Solitario, de el obtendremos los mensajes
     public String comprobarPosicion(int i, int j, Mesa mesa) {
-
+        if(j == 4){
+            return "pertenece al montón exterior";
+        }
         if (mesa.getMontonInterior()[i][j].empty()) {
             return "vacia";                  //Comprobamos si esta vacia
         }
         if (mesa.getMontonInterior()[i][j].peek().getOculta()) {
             return "oculta";      //Comprobamos si la carta de arriba esta boca abajo
         }
+        
         return "0";                                                                 //Si la carta no esta boca abajo y la pila no esta vacia retorna 0
 
     }
@@ -53,13 +56,10 @@ public class Jugador {
         //Necesita que se pueda sacar la carta
         
         Carta c = mesa.getMontonInterior()[iOrigen][jOrigen].pop();     //Asignamos la carta al objeto c (Desde la posicion introducida por parametros)
-        
-        
-        
-        
+   
         
         //MONTON EXTERIOR
-        if (jDestino == 5) {      //Si jDestino es un 5 sabemos que el destino es el monton exterior; Si es 1,2,3,4 es el monton interior
+        if (jDestino == 4) {      //Si jDestino es un 4 sabemos que el destino es el monton exterior; Si es 0,1,2,3 es el monton interior
 
             if (mesa.getMontonExterior()[iDestino].empty()) {
                 //Meter la primera carta en el montón
@@ -76,25 +76,22 @@ public class Jugador {
 
         }else{
             //MONTON INTERIOR
-            
-            Carta abajo = mesa.getMontonInterior()[iDestino][jDestino].peek();
-            
-            if(!mesa.getMontonInterior()[iDestino][jDestino].empty() && mesa.comprobarMayor(c,abajo) && 
-                     !abajo.getOculta()){
-                
-                
-                mesa.moverInterior(c, iDestino, jDestino);
-                return true;
-                
+            if(!mesa.getMontonInterior()[iDestino][jDestino].empty()){
+                Carta abajo = mesa.getMontonInterior()[iDestino][jDestino].peek();
+
+                if( mesa.comprobarMayor(c,abajo) && !abajo.getOculta()){
+                    mesa.moverInterior(c, iDestino, jDestino);
+                    return true;
+
+                }
             }
-        
         
         
         }
         
         
         //La carta la devolvemos al montón de origen
-        mesa.moverInterior(c, jOrigen, jOrigen);
+        mesa.moverInterior(c, iOrigen, jOrigen);
         
         return false;
     }
