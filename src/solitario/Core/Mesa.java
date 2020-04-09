@@ -37,7 +37,7 @@ public class Mesa {
     private Stack<Carta>[] montonExterior;
     //Movimientos posibles
     private int numMovimientos;
-    private StringBuilder movimientos = new StringBuilder();
+    private StringBuilder movimientos;
 
     public Mesa() {                      //Constructor pilas vacias (Mesa vacia)
 
@@ -117,7 +117,7 @@ public class Mesa {
 
     public boolean hayMovimentos() {
 
-
+        movimientos = new StringBuilder();
         numMovimientos = 0;
 
         //Comprobamos que no esté ninguna carta boca abajo
