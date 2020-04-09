@@ -29,8 +29,8 @@ public class Solitario {
 
                 switch (op) {
                     case 0:
-                        System.out.println("Fin.");
-                        System.exit(0);
+                        System.out.println("FIN.");
+                        System.exit(0); //Acaba con la ejecución
                         break;
                     case 1:
                         inicioPartida();
@@ -125,17 +125,17 @@ public class Solitario {
                 + "\n\tCristina Outeiriño Cid"
                 + "\n\tCésar José Pérez Alén"
                 + "\n\tJose Ángel Pérez Garrido"
-                + "\n\nSpecial thanks to Rosalía de Castro, Kings y Charlie porque sin "
-                + "ellas esto no sería posible. Y no nos olvidemos del COVID-19 "
-                + "por darnos tantas esperanzas y tiempo para poder hacerlo.\n"
-        );
+                + "\n");
+        
     }
+    
+    
 
     private static void inicioPartida() throws Exception {
 
         //String pausa;
         String tipoCarta;
-        int[] coordenadas = new int[]{0, 0};
+        int [] coordenadas = new int[]{0, 0};
         char eleccion;
         String comando;
         
@@ -155,20 +155,21 @@ public class Solitario {
                 Thread.sleep(10);     
                 System.out.println(mesa); //Mostramos la mesa actual
 
-                System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
+               // System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
                 
                 do {
-                    comando = ES.pideCadena("Introduce posicion(\"1A\"), ayuda o salir: ");
-
+                    System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
+                    comando = ES.pideCadena("Introduce posicion(\"1A\"), AYUDA o SALIR: ");
+                    comando=comando.toUpperCase().trim();
                     switch (comando) {
 
-                        case "salir":  case "SALIR":
+                        case "SALIR":
 
-                            char afirmar = ES.pideCadena("\n¿Seguro que quieres volver al menu principal? (S/N)").toLowerCase().charAt(0);
+                            char afirmar = ES.pideCadena("\n¿Seguro que quieres volver al menu principal? (S/N)").toUpperCase().trim().charAt(0);
                             
-                            if (afirmar == 's') {
+                            if (afirmar == 'S') {
 
-                                Main.main(null);
+                                Main.main(null); //Volver al menú principal
                             }
                             
                             ES.limpiarPantalla(21);
@@ -176,9 +177,10 @@ public class Solitario {
                             System.out.println(mesa);
                             break;
 
-                        case "ayuda":   case "AYUDA":                       
+                        case "AYUDA":                       
                             ES.limpiarPantalla(21);
-                            Thread.sleep(10);                            
+                            Thread.sleep(10); 
+                            System.out.println("POSIBLES MOVIMIENTOS:");
                             System.out.println(mesa.getMovimientos());
                             System.out.println(mesa);
                             break;
@@ -189,7 +191,7 @@ public class Solitario {
                             break;
                     }
 
-                } while ("ayuda".equals(comando) || "salir".equals(comando) || "AYUDA".equals(comando) || "SALIR".equals(comando));
+                } while ("AYUDA".equals(comando) || "SALIR".equals(comando));
 
                 tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], mesa);
 
@@ -206,7 +208,7 @@ public class Solitario {
                         System.err.println("La carta " + tipoCarta);
                         break;
 
-                    case ("oculta"): //Si la carta está oculta
+                    /*case ("oculta"): //Si la carta está oculta
                         
                         eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + " ?\n"
                                 + "\t[A] Voltear carta" + "  [B] Atrás");
@@ -216,28 +218,36 @@ public class Solitario {
                                     ES.limpiarPantalla(21);
                                     Thread.sleep(10);                                
                                     System.err.println("No se ha podido voltear la carta.");
-                                }else{ES.limpiarPantalla(21);}
+                                }
+                                else{
+                                    ES.limpiarPantalla(21);
+                                }
                                 break;
                         }
-                        break;
+                        break;*/
 
-                    default: // Si la carta existe y no está oculta 
+                    default: // Si la carta existe y no es de montón exterior (y no está oculta) 
                         System.out.println("\nHas escogido la carta: " + mesa.mirarCartaMontonInterior(coordenadas[0], coordenadas[1]));
                         eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + "?\n"
                                 + "\t[A] Mover carta" + "  [B] Atrás\n");
+                        
                         switch (eleccion) {
                             case 'A':
                                 int[] coordenadasDestino;
-
                                 System.out.println("\n¿A dónde quieres mover la carta " + j1.getNombre() + "?");
                                 coordenadasDestino = getCoordenadas(ES.pideCadena("Introduce posicion: "));
+                                
                                 if(!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa)){
                                     
                                     ES.limpiarPantalla(21);
                                     Thread.sleep(10);                                
                                     System.err.println("No se ha podido mover la carta. La carta regresa al origen.");
-                                }else{ES.limpiarPantalla(21);}
+                                }
+                                else {
+                                    ES.limpiarPantalla(21);
+                                }
                                 break;
+                            default: ES.limpiarPantalla(21);
                     }
                 }
             }
@@ -260,6 +270,7 @@ public class Solitario {
 
     //Divide la posicion recibida en las coordenadas i, j que devuelve en un array
     private static int[] getCoordenadas(String posicion) throws Exception {
+        posicion=posicion.toUpperCase().trim();
         int i, j;
         
         if(posicion.length() != 2){
@@ -280,7 +291,7 @@ public class Solitario {
         char eleccion;
         do {
             System.out.println(mensaje);
-            eleccion = ES.pideCadena("Introduce elección: ").toUpperCase().charAt(0);
+            eleccion = ES.pideCadena("Introduce elección: ").toUpperCase().trim().charAt(0);
         } while (eleccion != 'A' && eleccion != 'B');
 
         return eleccion;

@@ -98,7 +98,7 @@ public class Mesa {
         numMovimientos = 0;
 
         //Comprobamos que no esté ninguna carta boca abajo
-        for (int i = 0; i < DIM; i++) {
+        /*for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
                 if (!montonInterior[i][j].empty() && montonInterior[i][j].peek().getOculta()) {
                     numMovimientos++;
@@ -107,30 +107,30 @@ public class Mesa {
 
             }
 
-        }
+        }*/
 
         //Movimento del monton Interior al Interior 
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                if (!montonInterior[i][j].empty()) {
-                    Carta encima = montonInterior[i][j].peek();
+                if (!montonInteriorVacio(i, j)) {
+                    Carta encima = mirarCartaMontonInterior(i, j);
 
-                    if (!encima.getOculta()) {
+                    //if (!encima.getOculta()) {
 
                         for (int x = 0; x < DIM; x++) {
                             for (int y = 0; y < DIM; y++) {
-                                if (!montonInterior[x][y].empty()) {
-                                    Carta debajo = montonInterior[x][y].peek();
+                                if (!montonInteriorVacio(x, y)) {
+                                    Carta debajo = mirarCartaMontonInterior(x, y);
 
-                                    if (!debajo.getOculta() && comprobarMayor(encima, debajo)) {
-                                        movimientos.append("\nInterior: " + encima.toString() + debajo.toString());
+                                    if (/*!debajo.getOculta() && */comprobarMayor(encima, debajo)) {
+                                        movimientos.append("\nInterior: " + encima.toString() +" -> "+ debajo.toString());
                                         numMovimientos++;
                                     }
                                 }
                             }
 
                         }
-                    }
+                   // }
                 }
             }
 
@@ -139,27 +139,27 @@ public class Mesa {
         //Movimento del monton Interior al Exterior
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                if (!montonInterior[i][j].empty()) {
-                    Carta encima = montonInterior[i][j].peek();
+                if (!montonInteriorVacio(i, j)) {
+                    Carta encima = mirarCartaMontonInterior(i, j);
 
-                    if (!encima.getOculta()) {
+                    //if (!encima.getOculta()) {
                         if (encima.getNumero() == 1) {
                             movimientos.append("\nExterior: " + encima.toString());
                             numMovimientos++;
                         } else {
                             for (int y = 0; y < DIM; y++) {
-                                if (!montonExterior[y].empty()) {
-                                    Carta debajo = montonExterior[y].peek();
+                                if (!montonExteriorVacio(y)) {
+                                    Carta debajo = mirarCartaMontonExterior(y);
 
                                     if (comprobarMayor(debajo, encima)) {
-                                        movimientos.append("\nExterior: " + encima.toString() + debajo.toString());
+                                        movimientos.append("\nExterior: " + encima.toString() +" -> "+ debajo.toString());
                                         numMovimientos++;
                                     }
                                 }
 
                             }
                         }
-                    }
+                    //}
                 }
             }
 
@@ -201,10 +201,11 @@ public class Mesa {
 
    
 
-   
+
     public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen){ //Metodo que saca la primera carta de un monton de la parte interior
 
         Carta c = montonInterior[iOrigen][jOrigen].pop();
+        
         return c;
     }
     
@@ -252,10 +253,24 @@ public class Mesa {
     
     
     
-    public void voltear(int i, int j) {
-
-        montonInterior[i][j].peek().voltear();      //Da la vuelta a la primera carta del monton pasado como parametro
-
+    public boolean voltear(int i, int j, boolean siempre) {  //Da la vuelta a la primera carta del monton pasado como parametro 
+        
+        if(!siempre){   //siempre==false si se quiere voltear (solo si se cumple la condicion)
+            if(comprobarVolteo(i, j)){//Comprueba si una carta debe ser volteada
+                montonInterior[i][j].peek().voltear();
+                return true;   //Verificar que se ha volteado
+            }
+        
+            return false;     //Verificar que no se ha volteado
+        }
+        else{
+            montonInterior[i][j].peek().voltear(); //siempre=true si se quiere deshacer un volteo
+            return true;
+        }
+    }
+    
+    private boolean comprobarVolteo(int i, int j){ //Comprueba si una carta debe ser volteada
+        return (!montonInteriorVacio(i, j)&&mirarCartaMontonInterior(i, j).getOculta());
     }
     
     
