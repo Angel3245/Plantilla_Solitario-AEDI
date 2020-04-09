@@ -12,11 +12,12 @@ import solitario.Core.Mesa;
  * @author AEDI
  */
 public class Solitario {
-
+   
     public static void menuInicio() {
 
         int op;
         boolean repite;
+        String pausa;
 
         // Bucle ppal
         try {
@@ -29,15 +30,24 @@ public class Solitario {
                 switch (op) {
                     case 0:
                         System.out.println("Fin.");
+                        System.exit(0);
                         break;
                     case 1:
                         inicioPartida();
                         break;
                     case 2:
+                        ES.limpiarPantalla(21);
+                        Thread.sleep(10);
                         reglas();
+                        pausa = ES.pideCadena("Pulsa Intro para continuar...");
+                        ES.limpiarPantalla(21);
                         break;
                     case 3:
+                        ES.limpiarPantalla(21);
+                        Thread.sleep(10);
                         creditos();
+                        pausa = ES.pideCadena("Pulsa Intro para continuar...");
+                        ES.limpiarPantalla(21);
                         break;
 
                     default:
@@ -98,7 +108,7 @@ public class Solitario {
                 + "\nque la que se mueve (fíjate que encima del 10 se debe colocar un 7). "
                 + "\nEste movimiento tiene como objetivo hacer visible la carta "
                 + "\nque está debajo de la que se está moviendo. "
-                + "\n\n- No se puede mover una carta a un hueco vacío en la zona-interior.  ");
+                + "\n\n- No se puede mover una carta a un hueco vacío en la zona-interior.\n");
     }
 
     /**
@@ -117,71 +127,124 @@ public class Solitario {
                 + "\n\tJose Ángel Pérez Garrido"
                 + "\n\nSpecial thanks to Rosalía de Castro, Kings y Charlie porque sin "
                 + "ellas esto no sería posible. Y no nos olvidemos del COVID-19 "
-                + "por darnos tantas esperanzas y tiempo para poder hacerlo."
+                + "por darnos tantas esperanzas y tiempo para poder hacerlo.\n"
         );
     }
 
     private static void inicioPartida() throws Exception {
 
+        //String pausa;
+        String tipoCarta;
+        int[] coordenadas = new int[]{0, 0};
+        char eleccion;
+        String comando;
+        
         String nombre = ES.pideCadena("Introduce tu nombre: ");
         Jugador j1 = new Jugador(nombre);
         //Jugador j1 = new Jugador("solitario");
-
-        Mesa mesa = new Mesa();
-
-        String tipoCarta;
-        int[] coordenadas;
-        char eleccion;
+        
+        //pausa = ES.pideCadena("Pulsa Intro para continuar...");
+        ES.limpiarPantalla(21);
+        
+        Mesa mesa = new Mesa();        
 
         while (mesa.hayMovimentos()){
+            
             try{
+                
+                Thread.sleep(10);     
                 System.out.println(mesa); //Mostramos la mesa actual
 
-                System.out.println("Existen " + mesa.getMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
+                System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
+                
+                do {
+                    comando = ES.pideCadena("Introduce posicion(\"1A\"), ayuda o salir: ");
 
-                coordenadas = getCoordenadas(ES.pideCadena("Introduce posicion: ")); //Pedimos al usuario que introduzca una posición para realizar un movimiento
+                    switch (comando) {
+
+                        case "salir":  case "SALIR":
+
+                            char afirmar = ES.pideCadena("\n¿Seguro que quieres volver al menu principal? (S/N)").toLowerCase().charAt(0);
+                            
+                            if (afirmar == 's') {
+
+                                Main.main(null);
+                            }
+                            
+                            ES.limpiarPantalla(21);
+                            Thread.sleep(10);
+                            System.out.println(mesa);
+                            break;
+
+                        case "ayuda":   case "AYUDA":                       
+                            ES.limpiarPantalla(21);
+                            Thread.sleep(10);                            
+                            System.out.println(mesa.getMovimientos());
+                            System.out.println(mesa);
+                            break;
+
+                        default:
+
+                            coordenadas = getCoordenadas(comando);
+                            break;
+                    }
+
+                } while ("ayuda".equals(comando) || "salir".equals(comando) || "AYUDA".equals(comando) || "SALIR".equals(comando));
 
                 tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], mesa);
 
                 switch (tipoCarta) {
                     case ("vacia"): // Si no hay ninguna carta en la posición indicada
+                        ES.limpiarPantalla(21);
+                        Thread.sleep(10);
                         System.err.println("La posición está: " + tipoCarta);
                         break;
 
                     case ("pertenece al montón exterior"): // Si la carta pertenece al montón exterior
+                        ES.limpiarPantalla(21);
+                        Thread.sleep(10);
                         System.err.println("La carta " + tipoCarta);
                         break;
 
                     case ("oculta"): //Si la carta está oculta
                         
-                        eleccion = pideEleccion("¿Que quieres hacer " + j1.getNombre() + " ?\n"
+                        eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + " ?\n"
                                 + "\t[A] Voltear carta" + "  [B] Atrás");
                         switch (eleccion) {
                             case 'A':
-                                if(!j1.voltear(coordenadas[0], coordenadas[1], mesa))
+                                if(!j1.voltear(coordenadas[0], coordenadas[1], mesa)){
+                                    ES.limpiarPantalla(21);
+                                    Thread.sleep(10);                                
                                     System.err.println("No se ha podido voltear la carta.");
+                                }else{ES.limpiarPantalla(21);}
                                 break;
                         }
                         break;
 
                     default: // Si la carta existe y no está oculta
-                        System.out.println("Has escogido la carta: " + mesa.getMontonInterior()[coordenadas[0]][coordenadas[1]].peek());
-                        eleccion = pideEleccion("¿Que quieres hacer " + j1.getNombre() + " ?\n"
-                                + "\t[A] Mover carta" + "  [B] Atrás");
+                        System.out.println("\nHas escogido la carta: " + mesa.getMontonInterior()[coordenadas[0]][coordenadas[1]].peek());
+                        eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + "?\n"
+                                + "\t[A] Mover carta" + "  [B] Atrás\n");
                         switch (eleccion) {
                             case 'A':
                                 int[] coordenadasDestino;
 
-                                System.out.println("¿A dónde quieres mover la carta " + j1.getNombre() + " ?");
+                                System.out.println("\n¿A dónde quieres mover la carta " + j1.getNombre() + "?");
                                 coordenadasDestino = getCoordenadas(ES.pideCadena("Introduce posicion: "));
-                                if(!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa))
+                                if(!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa)){
+                                    
+                                    ES.limpiarPantalla(21);
+                                    Thread.sleep(10);                                
                                     System.err.println("No se ha podido mover la carta. La carta regresa al origen.");
-
+                                }else{ES.limpiarPantalla(21);}
                                 break;
                     }
                 }
             }
             catch(Exception exc){
+                
+                ES.limpiarPantalla(21);
+                Thread.sleep(10);
                 System.err.println(exc.getMessage());
             }
 
@@ -200,7 +263,7 @@ public class Solitario {
         int i, j;
         
         if(posicion.length() != 2){
-            throw new Exception("Has introducido una cantidad de elementos distinta de 2.");
+            throw new Exception("Has introducido una posicion / comando no valido.");
         }
 
         i = Character.getNumericValue(posicion.charAt(0)) - 1;
@@ -217,7 +280,7 @@ public class Solitario {
         char eleccion;
         do {
             System.out.println(mensaje);
-            eleccion = ES.pideCadena("Introduce elección: ").charAt(0);
+            eleccion = ES.pideCadena("Introduce elección: ").toUpperCase().charAt(0);
         } while (eleccion != 'A' && eleccion != 'B');
 
         return eleccion;

@@ -30,18 +30,18 @@ import java.util.Stack;
  * @author AEDI
  */
 public class Mesa {
-    
+
     private final int DIM = 4;
-    
+
     private Stack<Carta>[][] montonInterior;
     private Stack<Carta>[] montonExterior;
     //Movimientos posibles
-    private int movimientos;
-    
+    private int numMovimientos;
+    private StringBuilder movimientos = new StringBuilder();
 
     public Mesa() {                      //Constructor pilas vacias (Mesa vacia)
 
-        this.movimientos = 0;
+        numMovimientos = 0;
 
         this.montonInterior = new Stack[DIM][DIM];
         this.montonExterior = new Stack[DIM];
@@ -56,6 +56,31 @@ public class Mesa {
         }
 
         inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
+    }
+    
+    public Stack<Carta>[][] getMontonInterior() {
+        return montonInterior;
+    }
+
+    public Stack<Carta>[] getMontonExterior() {
+        return montonExterior;
+    }
+
+    public int getNumMovimientos() {
+        return numMovimientos;
+    }
+    
+    public String getMovimientos(){
+    
+        return movimientos.toString();
+    }
+
+    public void setMontonInterior(Stack<Carta>[][] montonInterior) {
+        this.montonInterior = montonInterior;
+    }
+
+    public void setMontonExterior(Stack<Carta>[] montonExterior) {
+        this.montonExterior = montonExterior;
     }
 
     public void inicio() {              //Metodo que crea la baraja y rellena la mesa
@@ -92,15 +117,14 @@ public class Mesa {
 
     public boolean hayMovimentos() {
 
-        boolean toret = false;
 
-        this.movimientos = 0;
+        numMovimientos = 0;
 
         //Comprobamos que no esté ninguna carta boca abajo
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
                 if (!montonInterior[i][j].empty() && montonInterior[i][j].peek().getOculta()) {
-                    movimientos++;
+                    numMovimientos++;
 
                 }
 
@@ -111,19 +135,19 @@ public class Mesa {
         //Movimento del monton Interior al Interior 
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                if (!montonInterior[i][j].empty()){
+                if (!montonInterior[i][j].empty()) {
                     Carta encima = montonInterior[i][j].peek();
 
                     if (!encima.getOculta()) {
 
                         for (int x = 0; x < DIM; x++) {
                             for (int y = 0; y < DIM; y++) {
-                                if (!montonInterior[x][y].empty()){
+                                if (!montonInterior[x][y].empty()) {
                                     Carta debajo = montonInterior[x][y].peek();
 
                                     if (!debajo.getOculta() && comprobarMayor(encima, debajo)) {
-                                        System.out.println("Interior: " + encima.toString() + debajo.toString());
-                                        movimientos++;
+                                        movimientos.append("\nInterior: " + encima.toString() + debajo.toString());
+                                        numMovimientos++;
                                     }
                                 }
                             }
@@ -138,22 +162,21 @@ public class Mesa {
         //Movimento del monton Interior al Exterior
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                if (!montonInterior[i][j].empty()){
+                if (!montonInterior[i][j].empty()) {
                     Carta encima = montonInterior[i][j].peek();
-                    
+
                     if (!encima.getOculta()) {
-                        if(encima.getNumero() == 1){
-                            System.out.println("Exterior: " + encima.toString() );
-                            movimientos++;
-                        }
-                        else{
+                        if (encima.getNumero() == 1) {
+                            movimientos.append("\nExterior: " + encima.toString());
+                            numMovimientos++;
+                        } else {
                             for (int y = 0; y < DIM; y++) {
-                                if (!montonExterior[y].empty()){
+                                if (!montonExterior[y].empty()) {
                                     Carta debajo = montonExterior[y].peek();
 
                                     if (comprobarMayor(debajo, encima)) {
-                                        System.out.println("Exterior: " + encima.toString() + debajo.toString());
-                                        movimientos++;
+                                        movimientos.append("\nExterior: " + encima.toString() + debajo.toString());
+                                        numMovimientos++;
                                     }
                                 }
 
@@ -165,7 +188,7 @@ public class Mesa {
 
         }
 
-        return movimientos > 0;
+        return numMovimientos > 0;
     }
 
     //La uno es la carta menor y dos es la mayor, también comprueba el Palo
@@ -185,26 +208,6 @@ public class Mesa {
 
         return menor == mayor - 1;
 
-    }
-
-    public Stack<Carta>[][] getMontonInterior() {
-        return montonInterior;
-    }
-
-    public Stack<Carta>[] getMontonExterior() {
-        return montonExterior;
-    }
-
-    public int getMovimientos() {
-        return movimientos;
-    }
-
-    public void setMontonInterior(Stack<Carta>[][] montonInterior) {
-        this.montonInterior = montonInterior;
-    }
-
-    public void setMontonExterior(Stack<Carta>[] montonExterior) {
-        this.montonExterior = montonExterior;
     }
 
     public Carta sacarCarta(int i, int j) {  //Metodo que saca la primera carta de un monton
@@ -228,24 +231,25 @@ public class Mesa {
         montonInterior[i][j].peek().voltear();      //Da la vuelta a la primera carta del monton pasado como parametro
 
     }
-    
-    public boolean ganador(){
-        
-        for(int i = 0; i < DIM; i++){
-            if(montonExterior[i].size() != 10){
+
+    public boolean ganador() {
+
+        for (int i = 0; i < DIM; i++) {
+            if (montonExterior[i].size() != 10) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
     @Override
     public String toString() {
+        
         StringBuilder toret = new StringBuilder();
         String secuencia = "\t     A\t\t     B\t\t     C\t\t     D\t\t\t\t\t     E";
-
-
+        
+        toret.append("\n");
         toret.append(secuencia).append("\n\n");
 
         for (int i = 0; i < DIM; i++) {
@@ -274,7 +278,8 @@ public class Mesa {
         }
 
         toret.append("\n\t\t\tMONTON INTERIOR \t\t\t\t\t\t\tMONTON EXTERIOR");
-
+        toret.append("\n");
+        
         return toret.toString();
     }
 }
