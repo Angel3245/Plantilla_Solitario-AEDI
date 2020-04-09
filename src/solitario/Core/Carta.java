@@ -57,7 +57,7 @@ public class Carta {
             switch(numero){
                 case 10: toret.append("SOTA");
                 break;
-                case 11: toret.append("ASNO");
+                case 11: toret.append("CBLL");
                 break;
                 case 12: toret.append("REY");
                 break;

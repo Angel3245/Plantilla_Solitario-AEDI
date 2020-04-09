@@ -58,30 +58,7 @@ public class Mesa {
         inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
     }
     
-    public Stack<Carta>[][] getMontonInterior() {
-        return montonInterior;
-    }
-
-    public Stack<Carta>[] getMontonExterior() {
-        return montonExterior;
-    }
-
-    public int getNumMovimientos() {
-        return numMovimientos;
-    }
-    
-    public String getMovimientos(){
-    
-        return movimientos.toString();
-    }
-
-    public void setMontonInterior(Stack<Carta>[][] montonInterior) {
-        this.montonInterior = montonInterior;
-    }
-
-    public void setMontonExterior(Stack<Carta>[] montonExterior) {
-        this.montonExterior = montonExterior;
-    }
+ 
 
     public void inicio() {              //Metodo que crea la baraja y rellena la mesa
 
@@ -209,11 +186,57 @@ public class Mesa {
         return menor == mayor - 1;
 
     }
+    
+     
+    
 
-    public Carta sacarCarta(int i, int j) {  //Metodo que saca la primera carta de un monton
-
-        return montonInterior[i][j].pop();
+    public int getNumMovimientos() { //Método para el número de movimientos posibles de la mesa
+        return numMovimientos;
     }
+    
+    public String getMovimientos(){  //Método que devuelve los movimientos que se pueden realizar
+    
+        return movimientos.toString();
+    }
+
+   
+
+   
+    public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen){ //Metodo que saca la primera carta de un monton de la parte interior
+
+        Carta c = montonInterior[iOrigen][jOrigen].pop();
+        return c;
+    }
+    
+    
+    
+    
+    
+    public Carta mirarCartaMontonInterior(int i, int j){ //Método para mirar sin sacarla una carta de un montón de la parte inteior
+        Carta c =montonInterior[i][j].peek();
+        return c;
+    }
+    
+    public Carta mirarCartaMontonExterior(int i){  //Método para mirar sin sacarla una carta de un montón de la parte exterior
+        Carta c =montonExterior[i].peek();
+        return c;
+    }
+    
+    
+    
+    
+    
+    public boolean montonExteriorVacio(int i){  //Método para saber si un montón de la parte exterior está vacío
+        return (montonExterior[i].empty());
+    }
+    
+    public boolean montonInteriorVacio(int i, int j){  //Método para saber si un montón de la parte interior está vacío
+        return (montonInterior[i][j].empty());
+    }
+    
+    
+    
+    
 
     public void moverExterior(Carta c, int posicion) {        //Movemos la carta que se pasa como parametro al monton exterior en la posicion pasada como parametro
 
@@ -226,11 +249,16 @@ public class Mesa {
         montonInterior[i][j].push(c);
     }
 
+    
+    
+    
     public void voltear(int i, int j) {
 
         montonInterior[i][j].peek().voltear();      //Da la vuelta a la primera carta del monton pasado como parametro
 
     }
+    
+    
 
     public boolean ganador() {
 
@@ -243,6 +271,8 @@ public class Mesa {
         return true;
     }
 
+    
+    
     @Override
     public String toString() {
         

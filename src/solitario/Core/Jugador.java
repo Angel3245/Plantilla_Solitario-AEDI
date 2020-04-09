@@ -27,10 +27,10 @@ public class Jugador {
         if(j == 4){
             return "pertenece al montón exterior";
         }
-        if (mesa.getMontonInterior()[i][j].empty()) {
+        if (mesa.montonInteriorVacio(i, j)) {
             return "vacia";                  //Comprobamos si esta vacia
         }
-        if (mesa.getMontonInterior()[i][j].peek().getOculta()) {
+        if (mesa.mirarCartaMontonInterior(i, j).getOculta()) {
             return "oculta";      //Comprobamos si la carta de arriba esta boca abajo
         }
         
@@ -40,7 +40,7 @@ public class Jugador {
 
     public boolean voltear(int i, int j, Mesa mesa) {    //Retorna un booleano en funcion de si voltea la carta o no
 
-        if (mesa.getMontonInterior()[i][j].peek().getOculta()) {      //Si la carta de arriba del monton esta boca abajo o no 
+        if (mesa.mirarCartaMontonInterior(i, j).getOculta()) {      //Si la carta de arriba del monton esta boca abajo o no 
 
             mesa.voltear(i, j);      //Si esta boca abajo, le damos la vuelta
             return true;
@@ -55,32 +55,35 @@ public class Jugador {
 
         //Necesita que se pueda sacar la carta
         
-        Carta c = mesa.getMontonInterior()[iOrigen][jOrigen].pop();     //Asignamos la carta al objeto c (Desde la posicion introducida por parametros)
+        Carta c = mesa.sacarCartaMontonInterior(iOrigen, jOrigen);    //Asignamos la carta al objeto c (Desde la posicion introducida por parametros)
    
         
         //MONTON EXTERIOR
         if (jDestino == 4) {      //Si jDestino es un 4 sabemos que el destino es el monton exterior; Si es 0,1,2,3 es el monton interior
 
-            if (mesa.getMontonExterior()[iDestino].empty()) {
+            if (mesa.montonExteriorVacio(iDestino)) {
                 //Meter la primera carta en el montón
                 if (c.getNumero() == 1) {
 
                     mesa.moverExterior(c, iDestino);
+        
                     return true;
                 }       //Continuar metiendo cartas en un montón ya iniciado
-            } else if (mesa.comprobarMayor(mesa.getMontonExterior()[iDestino].peek(), c)) {
+            } else if (mesa.comprobarMayor(mesa.mirarCartaMontonExterior(iDestino), c)) {
                     
                         mesa.moverExterior(c, iDestino);
+              
                         return true;
             }
 
         }else{
             //MONTON INTERIOR
-            if(!mesa.getMontonInterior()[iDestino][jDestino].empty()){
-                Carta abajo = mesa.getMontonInterior()[iDestino][jDestino].peek();
+            if(!mesa.montonInteriorVacio(iDestino, jDestino)){
+                Carta abajo =mesa.mirarCartaMontonInterior(iDestino, jDestino);
 
                 if( mesa.comprobarMayor(c,abajo) && !abajo.getOculta()){
                     mesa.moverInterior(c, iDestino, jDestino);
+                   
                     return true;
 
                 }

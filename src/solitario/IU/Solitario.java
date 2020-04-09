@@ -221,8 +221,8 @@ public class Solitario {
                         }
                         break;
 
-                    default: // Si la carta existe y no está oculta
-                        System.out.println("\nHas escogido la carta: " + mesa.getMontonInterior()[coordenadas[0]][coordenadas[1]].peek());
+                    default: // Si la carta existe y no está oculta 
+                        System.out.println("\nHas escogido la carta: " + mesa.mirarCartaMontonInterior(coordenadas[0], coordenadas[1]));
                         eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + "?\n"
                                 + "\t[A] Mover carta" + "  [B] Atrás\n");
                         switch (eleccion) {
