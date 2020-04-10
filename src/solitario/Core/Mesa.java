@@ -57,8 +57,6 @@ public class Mesa {
 
         inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
     }
-    
- 
 
     public void inicio() {              //Metodo que crea la baraja y rellena la mesa
 
@@ -108,7 +106,6 @@ public class Mesa {
             }
 
         }*/
-
         //Movimento del monton Interior al Interior 
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
@@ -116,21 +113,20 @@ public class Mesa {
                     Carta encima = mirarCartaMontonInterior(i, j);
 
                     //if (!encima.getOculta()) {
+                    for (int x = 0; x < DIM; x++) {
+                        for (int y = 0; y < DIM; y++) {
+                            if (!montonInteriorVacio(x, y)) {
+                                Carta debajo = mirarCartaMontonInterior(x, y);
 
-                        for (int x = 0; x < DIM; x++) {
-                            for (int y = 0; y < DIM; y++) {
-                                if (!montonInteriorVacio(x, y)) {
-                                    Carta debajo = mirarCartaMontonInterior(x, y);
-
-                                    if (/*!debajo.getOculta() && */comprobarMayor(encima, debajo)) {
-                                        movimientos.append("\nInterior: " + encima.toString() +" -> "+ debajo.toString());
-                                        numMovimientos++;
-                                    }
+                                if (/*!debajo.getOculta() && */comprobarMayor(encima, debajo)) {
+                                    movimientos.append("\nInterior: " + encima.toString() + " -> " + debajo.toString());
+                                    numMovimientos++;
                                 }
                             }
-
                         }
-                   // }
+
+                    }
+                    // }
                 }
             }
 
@@ -143,22 +139,22 @@ public class Mesa {
                     Carta encima = mirarCartaMontonInterior(i, j);
 
                     //if (!encima.getOculta()) {
-                        if (encima.getNumero() == 1) {
-                            movimientos.append("\nExterior: " + encima.toString());
-                            numMovimientos++;
-                        } else {
-                            for (int y = 0; y < DIM; y++) {
-                                if (!montonExteriorVacio(y)) {
-                                    Carta debajo = mirarCartaMontonExterior(y);
+                    if (encima.getNumero() == 1) {
+                        movimientos.append("\nExterior: " + encima.toString());
+                        numMovimientos++;
+                    } else {
+                        for (int y = 0; y < DIM; y++) {
+                            if (!montonExteriorVacio(y)) {
+                                Carta debajo = mirarCartaMontonExterior(y);
 
-                                    if (comprobarMayor(debajo, encima)) {
-                                        movimientos.append("\nExterior: " + encima.toString() +" -> "+ debajo.toString());
-                                        numMovimientos++;
-                                    }
+                                if (comprobarMayor(debajo, encima)) {
+                                    movimientos.append("\nExterior: " + encima.toString() + " -> " + debajo.toString());
+                                    numMovimientos++;
                                 }
-
                             }
+
                         }
+                    }
                     //}
                 }
             }
@@ -186,58 +182,40 @@ public class Mesa {
         return menor == mayor - 1;
 
     }
-    
-     
-    
 
     public int getNumMovimientos() { //Método para el número de movimientos posibles de la mesa
         return numMovimientos;
     }
-    
-    public String getMovimientos(){  //Método que devuelve los movimientos que se pueden realizar
-    
+
+    public String getMovimientos() {  //Método que devuelve los movimientos que se pueden realizar
+
         return movimientos.toString();
     }
 
-   
-
-
-    public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen){ //Metodo que saca la primera carta de un monton de la parte interior
+    public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen) { //Metodo que saca la primera carta de un monton de la parte interior
 
         Carta c = montonInterior[iOrigen][jOrigen].pop();
-        
+
         return c;
     }
-    
-    
-    
-    
-    
-    public Carta mirarCartaMontonInterior(int i, int j){ //Método para mirar sin sacarla una carta de un montón de la parte inteior
-        Carta c =montonInterior[i][j].peek();
+
+    public Carta mirarCartaMontonInterior(int i, int j) { //Método para mirar sin sacarla una carta de un montón de la parte inteior
+        Carta c = montonInterior[i][j].peek();
         return c;
     }
-    
-    public Carta mirarCartaMontonExterior(int i){  //Método para mirar sin sacarla una carta de un montón de la parte exterior
-        Carta c =montonExterior[i].peek();
+
+    public Carta mirarCartaMontonExterior(int i) {  //Método para mirar sin sacarla una carta de un montón de la parte exterior
+        Carta c = montonExterior[i].peek();
         return c;
     }
-    
-    
-    
-    
-    
-    public boolean montonExteriorVacio(int i){  //Método para saber si un montón de la parte exterior está vacío
+
+    public boolean montonExteriorVacio(int i) {  //Método para saber si un montón de la parte exterior está vacío
         return (montonExterior[i].empty());
     }
-    
-    public boolean montonInteriorVacio(int i, int j){  //Método para saber si un montón de la parte interior está vacío
+
+    public boolean montonInteriorVacio(int i, int j) {  //Método para saber si un montón de la parte interior está vacío
         return (montonInterior[i][j].empty());
     }
-    
-    
-    
-    
 
     public void moverExterior(Carta c, int posicion) {        //Movemos la carta que se pasa como parametro al monton exterior en la posicion pasada como parametro
 
@@ -250,30 +228,16 @@ public class Mesa {
         montonInterior[i][j].push(c);
     }
 
-    
-    
-    
-    public boolean voltear(int i, int j, boolean siempre) {  //Da la vuelta a la primera carta del monton pasado como parametro 
-        
-        if(!siempre){   //siempre==false si se quiere voltear (solo si se cumple la condicion)
-            if(comprobarVolteo(i, j)){//Comprueba si una carta debe ser volteada
-                montonInterior[i][j].peek().voltear();
-                return true;   //Verificar que se ha volteado
-            }
-        
-            return false;     //Verificar que no se ha volteado
-        }
-        else{
-            montonInterior[i][j].peek().voltear(); //siempre=true si se quiere deshacer un volteo
-            return true;
+    public void voltear(int i, int j) {  //Da la vuelta a la primera carta del monton pasado como parametro 
+
+        if (comprobarVolteo(i, j)) {
+            montonInterior[i][j].peek().voltear();
         }
     }
-    
-    private boolean comprobarVolteo(int i, int j){ //Comprueba si una carta debe ser volteada
-        return (!montonInteriorVacio(i, j)&&mirarCartaMontonInterior(i, j).getOculta());
+
+    private boolean comprobarVolteo(int i, int j) { //Comprueba si una carta debe ser volteada
+        return (!montonInteriorVacio(i, j) && mirarCartaMontonInterior(i, j).getOculta());
     }
-    
-    
 
     public boolean ganador() {
 
@@ -286,14 +250,12 @@ public class Mesa {
         return true;
     }
 
-    
-    
     @Override
     public String toString() {
-        
+
         StringBuilder toret = new StringBuilder();
         String secuencia = "\t     A\t\t     B\t\t     C\t\t     D\t\t\t\t\t     E";
-        
+
         toret.append("\n");
         toret.append(secuencia).append("\n\n");
 
@@ -322,9 +284,9 @@ public class Mesa {
             toret.append("\n");
         }
 
-        toret.append("\n\t\t\tMONTON INTERIOR \t\t\t\t\t\t\tMONTON EXTERIOR");
+        toret.append("\n\t\t\tMONTÓN INTERIOR \t\t\t\t\t\t\tMONTÓN EXTERIOR");
         toret.append("\n");
-        
+
         return toret.toString();
     }
 }

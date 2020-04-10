@@ -34,7 +34,7 @@ public class ES {
 
                 // Pedir
                 toret = Integer.parseInt(leer.nextLine());
-                
+
             } catch (NumberFormatException exc) {
 
                 repite = true;
@@ -47,10 +47,18 @@ public class ES {
     }
 
     public static void limpiarPantalla(int lineas) {
-        
+
         for (int i = 0; i < lineas; i++) {
-            
+
             System.out.println();
+        }
+        //Parada de 10 milisegundos para que no salgan mensajes por el medio
+        try {
+
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+
         }
     }
 }

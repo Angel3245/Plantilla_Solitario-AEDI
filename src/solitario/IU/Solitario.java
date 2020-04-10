@@ -12,7 +12,7 @@ import solitario.Core.Mesa;
  * @author AEDI
  */
 public class Solitario {
-   
+
     public static void menuInicio() {
 
         int op;
@@ -37,14 +37,12 @@ public class Solitario {
                         break;
                     case 2:
                         ES.limpiarPantalla(21);
-                        Thread.sleep(10);
                         reglas();
                         pausa = ES.pideCadena("Pulsa Intro para continuar...");
                         ES.limpiarPantalla(21);
                         break;
                     case 3:
                         ES.limpiarPantalla(21);
-                        Thread.sleep(10);
                         creditos();
                         pausa = ES.pideCadena("Pulsa Intro para continuar...");
                         ES.limpiarPantalla(21);
@@ -126,60 +124,56 @@ public class Solitario {
                 + "\n\tCésar José Pérez Alén"
                 + "\n\tJose Ángel Pérez Garrido"
                 + "\n");
-        
+
     }
-    
-    
 
     private static void inicioPartida() throws Exception {
 
         //String pausa;
-        String tipoCarta;
-        int [] coordenadas = new int[]{0, 0};
+        char tipoCarta;
+        int[] coordenadas = new int[]{0, 0};
+        int[] coordenadasDestino = new int[]{0, 0};
         char eleccion;
         String comando;
-        
+        String coordenadasDestinoAUX;
+
         String nombre = ES.pideCadena("Introduce tu nombre: ");
         Jugador j1 = new Jugador(nombre);
         //Jugador j1 = new Jugador("solitario");
-        
+
         //pausa = ES.pideCadena("Pulsa Intro para continuar...");
         ES.limpiarPantalla(21);
-        
-        Mesa mesa = new Mesa();        
 
-        while (mesa.hayMovimentos()){
-            
-            try{
-                
-                Thread.sleep(10);     
+        Mesa mesa = new Mesa();
+
+        while (mesa.hayMovimentos()) {
+
+            try {
+
                 System.out.println(mesa); //Mostramos la mesa actual
 
-               // System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
-                
+                // System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
                 do {
                     System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
-                    comando = ES.pideCadena("Introduce posicion(\"1A\"), AYUDA o SALIR: ");
-                    comando=comando.toUpperCase().trim();
+                    comando = ES.pideCadena("Introduce posición (ej.\"1A\"), AYUDA o SALIR: ");
+                    comando = comando.toUpperCase().trim();
                     switch (comando) {
 
                         case "SALIR":
 
                             char afirmar = ES.pideCadena("\n¿Seguro que quieres volver al menu principal? (S/N)").toUpperCase().trim().charAt(0);
-                            
+
                             if (afirmar == 'S') {
 
                                 Main.main(null); //Volver al menú principal
                             }
-                            
+
                             ES.limpiarPantalla(21);
-                            Thread.sleep(10);
                             System.out.println(mesa);
                             break;
 
-                        case "AYUDA":                       
+                        case "AYUDA":
                             ES.limpiarPantalla(21);
-                            Thread.sleep(10); 
                             System.out.println("POSIBLES MOVIMIENTOS:");
                             System.out.println(mesa.getMovimientos());
                             System.out.println(mesa);
@@ -196,16 +190,14 @@ public class Solitario {
                 tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], mesa);
 
                 switch (tipoCarta) {
-                    case ("vacia"): // Si no hay ninguna carta en la posición indicada
+                    case 'v': // Si no hay ninguna carta en la posición indicada
                         ES.limpiarPantalla(21);
-                        Thread.sleep(10);
-                        System.err.println("La posición está: " + tipoCarta);
+                        System.out.println("\033[31mLa posición está vacia \33[30m");
                         break;
 
-                    case ("pertenece al montón exterior"): // Si la carta pertenece al montón exterior
+                    case 'e': // Si la carta pertenece al montón exterior
                         ES.limpiarPantalla(21);
-                        Thread.sleep(10);
-                        System.err.println("La carta " + tipoCarta);
+                        System.out.println("\033[31mLa carta pertenece al montón exterior \33[30m");
                         break;
 
                     /*case ("oculta"): //Si la carta está oculta
@@ -216,7 +208,6 @@ public class Solitario {
                             case 'A':
                                 if(!j1.voltear(coordenadas[0], coordenadas[1], mesa)){
                                     ES.limpiarPantalla(21);
-                                    Thread.sleep(10);                                
                                     System.err.println("No se ha podido voltear la carta.");
                                 }
                                 else{
@@ -225,65 +216,62 @@ public class Solitario {
                                 break;
                         }
                         break;*/
-
                     default: // Si la carta existe y no es de montón exterior (y no está oculta) 
-                        System.out.println("\nHas escogido la carta: " + mesa.mirarCartaMontonInterior(coordenadas[0], coordenadas[1]));
-                        eleccion = pideEleccion("\n¿Que quieres hacer " + j1.getNombre() + "?\n"
-                                + "\t[A] Mover carta" + "  [B] Atrás\n");
-                        
-                        switch (eleccion) {
-                            case 'A':
-                                int[] coordenadasDestino;
-                                System.out.println("\n¿A dónde quieres mover la carta " + j1.getNombre() + "?");
-                                coordenadasDestino = getCoordenadas(ES.pideCadena("Introduce posicion: "));
-                                
-                                if(!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa)){
-                                    
-                                    ES.limpiarPantalla(21);
-                                    Thread.sleep(10);                                
-                                    System.err.println("No se ha podido mover la carta. La carta regresa al origen.");
-                                }
-                                else {
-                                    ES.limpiarPantalla(21);
-                                }
-                                break;
-                            default: ES.limpiarPantalla(21);
-                    }
+
+                        System.out.println("\n¿A dónde quieres mover la carta " + mesa.mirarCartaMontonInterior(coordenadas[0], coordenadas[1]) + ", " + j1.getNombre() + "?");
+
+                        coordenadasDestinoAUX = ES.pideCadena("Introduce posición o pulsa Enter para volver atrás: ");
+
+                        if (!coordenadasDestinoAUX.equals("")) {
+
+                            coordenadasDestino = getCoordenadas(coordenadasDestinoAUX);
+
+                            if (!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa)) {
+
+                                ES.limpiarPantalla(21);
+                                System.out.println("\033[31mNo se ha podido mover la carta. La carta regresa al origen. \33[30m");
+                            } else {
+                                ES.limpiarPantalla(21);
+                            }
+
+                        } else {
+
+                            ES.limpiarPantalla(21);
+                        }
+
                 }
-            }
-            catch(Exception exc){
-                
+            } catch (Exception exc) {
+
                 ES.limpiarPantalla(21);
-                Thread.sleep(10);
                 System.err.println(exc.getMessage());
             }
 
-        } 
-        
-        if(mesa.ganador()){
-            System.out.println("FELICIDADES: HAS GANADO " + j1.getNombre() + " :)");
         }
-        else{
-            System.err.println("F. HAS PERDIDO otra vez... " + j1.getNombre() + " :(");
+
+        if (mesa.ganador()) {
+            //Mensaje de ganador en color verde
+            System.out.println("\033[32mFELICIDADES: HAS GANADO " + j1.getNombre() + " :)\33[30m");
+        } else {
+            System.out.println("\033[31mF. HAS PERDIDO otra vez... " + j1.getNombre() + " :(\33[30m");
         }
     }
 
     //Divide la posicion recibida en las coordenadas i, j que devuelve en un array
     private static int[] getCoordenadas(String posicion) throws Exception {
-        posicion=posicion.toUpperCase().trim();
+        posicion = posicion.toUpperCase().trim();
         int i, j;
-        
-        if(posicion.length() != 2){
-            throw new Exception("Has introducido una posicion / comando no valido.");
+
+        if (posicion.length() != 2) {
+            throw new Exception("Has introducido una posicion / comando no válido.");
         }
 
         i = Character.getNumericValue(posicion.charAt(0)) - 1;
         j = posicion.charAt(1) - 64 - 1;
-      
+
         if ((i < 0 || i > 3) || (j < 0 || j > 4)) {
             throw new Exception("La posición introducida no es correcta.");
         }
-        
+
         return new int[]{i, j};
     }
 
