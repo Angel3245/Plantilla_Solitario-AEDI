@@ -21,27 +21,54 @@ public class Carta {
     
     }    
     
+    /**
+     * Devuelve el número de la carta
+     *
+     * @return numero el número de la carta, como int
+     */
     public int getNumero(){
         return numero;
     }
     
+    /**
+     * Devuelve el palo de la carta
+     *
+     * @return palo el palo de la carta, como Palos
+     */
     public Palos getPalos(){
         return palo;
     }
     
+    /**
+     * Indica si la carta está oculta o no
+     *
+     * @return true si la carta está oculta o false en caso contrario
+     */
     public boolean getOculta(){
         return oculta;
     }
     
+    /**
+     * Cambia el estado de la carta entre oculta y visible
+     *@param ocult indica el estado anterior de la carta
+     * 
+     */
     public void setOculta(boolean ocult){
         this.oculta = ocult;
     }
     
-    //Cambia el estado de la carta a su contrario
+    /**
+     * Cambia el estado de la carta entre oculta y visible
+     * 
+     */
     public void voltear(){
         this.oculta = !this.oculta;
     }
     
+    /**
+     * Devuelve una carta con su número y palo
+     * @return una carta, como String
+     */
     @Override
     public String toString(){
         StringBuilder toret = new StringBuilder();

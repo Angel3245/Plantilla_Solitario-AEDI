@@ -58,6 +58,12 @@ public class Mesa {
         inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
     }
 
+    
+    /**
+     * Crea la baraja y rellena la mesa colocando 16 catas boca abajo,
+     * luego en las diagonales y luego otras 16 boca arriba 
+     * 
+     */
     public void inicio() {              //Metodo que crea la baraja y rellena la mesa
 
         Baraja baraja = new Baraja();   //Creamos la baraja de la mesa
@@ -90,6 +96,11 @@ public class Mesa {
         }
     }
 
+    /**
+     * Comprueba si hay movimientos posibles contándolos y creando el String movimientos
+     * @return true si hay movimientos posibles y false en caso contrario
+     * 
+     */
     public boolean hayMovimentos() {
 
         movimientos = new StringBuilder();
@@ -164,7 +175,13 @@ public class Mesa {
         return numMovimientos > 0;
     }
 
-    //La uno es la carta menor y dos es la mayor, también comprueba el Palo
+    /**
+     * Comprueba si la Carta uno es la menor, la Carta dos la mayor y 
+     * si son ambas del mismo palo
+     * @param uno la Carta menor
+     * @param dos la Carta mayor 
+     * @return true si la comprobación es correcta y false en caso contrario
+     */
     public boolean comprobarMayor(Carta uno, Carta dos) {
 
         int menor = uno.getNumero();
@@ -182,16 +199,34 @@ public class Mesa {
         return menor == mayor - 1;
 
     }
-
+    
+    
+    /**
+     * Devuelve el número de posibles movimientos de la mesa
+     *
+     * @return el número de movimientos posibles (numMovimientos) como int
+     */
     public int getNumMovimientos() { //Método para el número de movimientos posibles de la mesa
         return numMovimientos;
     }
-
+    
+    
+    /**
+     * Devuelve los posibles posibles movimientos de la mesa
+     *
+     * @return los posibles movimientos de la mesa (movimientoa) como String
+     */
     public String getMovimientos() {  //Método que devuelve los movimientos que se pueden realizar
 
         return movimientos.toString();
     }
 
+    
+    /**
+     * Devuelve una carta sacada del montón interior
+     *
+     * @return la carta del tope de la pila montonInterior, como Carta
+     */
     public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen) { //Metodo que saca la primera carta de un monton de la parte interior
 
         Carta c = montonInterior[iOrigen][jOrigen].pop();
@@ -199,46 +234,94 @@ public class Mesa {
         return c;
     }
 
-    public Carta mirarCartaMontonInterior(int i, int j) { //Método para mirar sin sacarla una carta de un montón de la parte inteior
+    /**
+     * Devuelve la carta del tope del montón interior sin sacarla de la pila
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón interior
+     * @return la carta del tope de la pila montonInterior, como Carta
+     */
+    public Carta mirarCartaMontonInterior(int i, int j) { 
         Carta c = montonInterior[i][j].peek();
         return c;
     }
 
-    public Carta mirarCartaMontonExterior(int i) {  //Método para mirar sin sacarla una carta de un montón de la parte exterior
+    /**
+     * Devuelve la carta del tope del montón exterior sin sacarla de la pila
+     * @param i la posición del montón exterior 
+     * @return la carta del tope de la pila montonExterior, como Carta
+     */
+    public Carta mirarCartaMontonExterior(int i) {  
         Carta c = montonExterior[i].peek();
         return c;
     }
 
-    public boolean montonExteriorVacio(int i) {  //Método para saber si un montón de la parte exterior está vacío
+    /**
+     * Comprueba si un montón de la parte exterior está vacío
+     * @param i la posición del montón exterior 
+     * @return true si el montón exterior está vacío y false en caso contrario
+     */
+    public boolean montonExteriorVacio(int i) {  
         return (montonExterior[i].empty());
     }
 
-    public boolean montonInteriorVacio(int i, int j) {  //Método para saber si un montón de la parte interior está vacío
+    /**
+     * Comprueba si un montón de la parte interior está vacío
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón interior
+     * @return true si el montón interior está vacío y false en caso contrario
+     */
+    public boolean montonInteriorVacio(int i, int j) {  
         return (montonInterior[i][j].empty());
     }
 
-    public void moverExterior(Carta c, int posicion) {        //Movemos la carta que se pasa como parametro al monton exterior en la posicion pasada como parametro
+    /**
+     * Mueve una carta a un montón exterior
+     * @param c Carta que se mueve a un monton exterior
+     * @param posicion del montón exterior al que se mueve la carta
+     */
+    public void moverExterior(Carta c, int posicion) {       
 
         montonExterior[posicion].push(c);
 
     }
 
-    public void moverInterior(Carta c, int i, int j) {        //Movemos la carta que se pasa como parametro al monton interior en la posicion pasada como parametro
-
+     /**
+     * Mueve una carta a un montón interior
+     * @param c Carta que se mueve a un monton interior
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón interior
+     */
+    public void moverInterior(Carta c, int i, int j) {        
         montonInterior[i][j].push(c);
     }
 
-    public void voltear(int i, int j) {  //Da la vuelta a la primera carta del monton pasado como parametro 
+    /**
+     * Voltea la carta del tope de un montón de la parte interior
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón interior
+     */
+    public void voltear(int i, int j) { 
 
         if (comprobarVolteo(i, j)) {
             montonInterior[i][j].peek().voltear();
         }
     }
 
+    /**
+     * Comprueba si una carta puede ser volteada, si el montón inerior donde se 
+     * situa no esta vacío y la carta está oculta
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón interior
+     */
     private boolean comprobarVolteo(int i, int j) { //Comprueba si una carta debe ser volteada
         return (!montonInteriorVacio(i, j) && mirarCartaMontonInterior(i, j).getOculta());
     }
 
+    /**
+     * Comprueba que todos los montones de la parte exterior tienen 10 cartas, 
+     * situación en la cual se gana la partida
+     * 
+     */
     public boolean ganador() {
 
         for (int i = 0; i < DIM; i++) {
@@ -249,7 +332,12 @@ public class Mesa {
 
         return true;
     }
-
+    
+    
+    /**
+     * Devuelve la mesa de cartas 
+     * @return la mesa de cartas, como String
+     */
     @Override
     public String toString() {
 

@@ -41,7 +41,11 @@ public class Baraja {
 
     }
 
-    //Método para barajar las cartas
+  
+    /**
+     * Método para barajar las cartas
+     * 
+     */
     public void barajar(){
 
     //Baraja el arraylist baraja y le pasamos un objeto aleatorio
@@ -54,8 +58,13 @@ public class Baraja {
     Collections.shuffle(this.baraja,new Random());
     
     }
-
-    //Saca la carta de la parte superior
+    
+    
+    /**
+     * Saca la carta de la parte superior
+     *
+     * @return la carta de la parte superior, como Carta
+     */
     public Carta getCarta(){
 
         Carta c = baraja.get(baraja.size()-1);
@@ -68,13 +77,21 @@ public class Baraja {
 
     //Devuelve la cantidad de cartas que ACTUALMENTE quedan en la baraja
     //IMPORTANTE cuidado al utilizar este método en bucles  
+    /**
+     * Devuelve el númeoro de caratas de la baraja
+     *
+     * @return el número de cartas de la baraja, como int
+     */
     public int size(){
 
         return baraja.size();
 
     }
 
-    //Muestra toda la baraja
+    /**
+     * Devuelve toda la baraja
+     * @return una baraja, como String
+     */
     @Override
     public String toString(){
 

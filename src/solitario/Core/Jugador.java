@@ -17,11 +17,25 @@ public class Jugador {
         this.nombre = nombre;
     }
 
+    /**
+     * Devuelve el nombre del jugador
+     *
+     * @return nombre el nombre del jugador como String
+     */
     public String getNombre() {
         return nombre;
     }
+    
+    
+    /**
+     * Devuelve "v" si la pila esta vacia, "e" si la carta pertenece al montón 
+     * exterior o "0" si no se da ninguna
+     * @param i la posición (fila) del montón interior 
+     * @param j la posición (columna) del montón 
+     * @param mesa la mesa con la que se está jugando
+     * @return la letra indicadora de situación, como char
+     */
 
-    // Este metodo retorna "vacia" si la pila esta vacia y "oculta" si la carta de arriba esta boca abajo
     //Este método se utilizara en la clase Solitario, de el obtendremos los mensajes
     public char comprobarPosicion(int i, int j, Mesa mesa) {
         if (j == 4) {
@@ -50,6 +64,16 @@ public class Jugador {
             return false;            //Si no esta boca abajo no hacemos nada
         }
     }*/
+    
+    /**
+     * Mueve una carta de una posición pasada como parámetro a otra pasada también si el movimiento es posible
+     * @param iOrigen la posición origen (fila) del montón interior 
+     * @param jOrigen la posición origen (columna) del montón 
+     * @param iDestino la posición destino (fila) del montón interior o posición del montón exterior
+     * @param jDestino la posición destino (columna) del montón interior o, si es 4 indicadora de que el destino es el montón exterior
+     * @param mesa la mesa con la que se está jugando
+     * @return true si es movimiento se produce o false en caso contrario
+     */
     public boolean mover(int iOrigen, int jOrigen, int iDestino, int jDestino, Mesa mesa) {
 
         //Necesita que se pueda sacar la carta
