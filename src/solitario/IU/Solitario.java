@@ -12,7 +12,10 @@ import solitario.Core.Mesa;
  * @author AEDI
  */
 public class Solitario {
-
+    
+    /**
+     * Realiza el reparto de la funcionalidad
+     */
     public static void menuInicio() {
 
         int op;
@@ -25,7 +28,7 @@ public class Solitario {
 
                 System.out.println("\nSOLITARIO");
 
-                op = menu();
+                op = menu(); //Pedimos una elección al usuario
 
                 switch (op) {
                     case 0:
@@ -126,16 +129,19 @@ public class Solitario {
                 + "\n");
 
     }
-
+    
+    /**
+     * Crea y dirige toda la partida.
+     */
     private static void inicioPartida() throws Exception {
 
         //String pausa;
-        char tipoCarta;
-        int[] coordenadas = new int[]{0, 0};
-        int[] coordenadasDestino = new int[]{0, 0};
-        char eleccion;
-        String comando;
-        String coordenadasDestinoAUX;
+        char tipoCarta;                                                          //Indica si la posición intrododucida se corresponde con una carta del montón exterior o si no hay ninguna carta
+        int[] coordenadas = new int[]{0, 0};                                     //Posición en coordenadas de la carta que se va a mover
+        int[] coordenadasDestino = new int[]{0, 0};                              //Posición en coordenadas de a donde se va mover la carta
+        //char eleccion; (Innecesario)
+        String comando;                                                          //String introducido por teclado por el usuario 
+        String posicionDestino;
 
         String nombre = ES.pideCadena("Introduce tu nombre: ");
         Jugador j1 = new Jugador(nombre);
@@ -150,52 +156,55 @@ public class Solitario {
 
             try {
 
-                System.out.println(mesa); //Mostramos la mesa actual
+                System.out.println(mesa);                                        //Mostramos la mesa actual
 
-                // System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
                 do {
-                    System.out.println("Existen " + mesa.getNumMovimientos() + " movimientos posibles.\n"); //Indicamos el número de posibles movimientos
-                    comando = ES.pideCadena("Introduce posición (ej.\"1A\"), AYUDA o SALIR: ");
+                    System.out.println("Existen " + mesa.getNumMovimientos() +   //Indicamos el número de posibles movimientos
+                            " movimientos posibles.\n");                         
+                    comando = ES.pideCadena("Introduce posición (ej.\"1A\"), "
+                            + "AYUDA o SALIR: ");
                     comando = comando.toUpperCase().trim();
                     switch (comando) {
 
-                        case "SALIR":
+                        case "SALIR":                                            //Si el usuario introduce el comando SALIR
 
-                            char afirmar = ES.pideCadena("\n¿Seguro que quieres volver al menu principal? (S/N)").toUpperCase().trim().charAt(0);
+                            char afirmar = ES.pideCadena("\n¿Seguro que quieres "
+                                    + "volver al menu principal? (S/N) ").toUpperCase().trim().charAt(0);
 
                             if (afirmar == 'S') {
 
-                                Main.main(null); //Volver al menú principal
+                                Main.main(null);                                 //Volver al menú principal
                             }
 
                             ES.limpiarPantalla(21);
                             System.out.println(mesa);
                             break;
 
-                        case "AYUDA":
+                        case "AYUDA":                                            //Si el usuario introduce el comando AYUDA
                             ES.limpiarPantalla(21);
                             System.out.println("POSIBLES MOVIMIENTOS:");
                             System.out.println(mesa.getMovimientos());
                             System.out.println(mesa);
                             break;
 
-                        default:
+                        default:                                                 //Si no se introduce ningún comando el programa interpreta que se ha introducido una posición
 
                             coordenadas = getCoordenadas(comando);
                             break;
                     }
 
-                } while ("AYUDA".equals(comando) || "SALIR".equals(comando));
+                } while ("AYUDA".equals(comando));
 
-                tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], mesa);
+                tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], //Comprobamos el tipo de carta
+                        mesa);
 
                 switch (tipoCarta) {
-                    case 'v': // Si no hay ninguna carta en la posición indicada
+                    case 'v':                                                    // Si no hay ninguna carta en la posición indicada
                         ES.limpiarPantalla(21);
                         System.out.println("\033[31mLa posición está vacia \33[30m");
                         break;
 
-                    case 'e': // Si la carta pertenece al montón exterior
+                    case 'e':                                                    // Si la carta pertenece al montón exterior
                         ES.limpiarPantalla(21);
                         System.out.println("\033[31mLa carta pertenece al montón exterior \33[30m");
                         break;
@@ -216,25 +225,32 @@ public class Solitario {
                                 break;
                         }
                         break;*/
-                    default: // Si la carta existe y no es de montón exterior (y no está oculta) 
+                        
+                    default:                                                     // Si la carta existe y no es de montón exterior (y no está oculta) 
 
-                        System.out.println("\n¿A dónde quieres mover la carta " + mesa.mirarCartaMontonInterior(coordenadas[0], coordenadas[1]) + ", " + j1.getNombre() + "?");
+                        System.out.println("\n¿A dónde quieres mover la carta " 
+                                + mesa.mirarCartaMontonInterior(coordenadas[0], 
+                                coordenadas[1]) + ", " + j1.getNombre() + "?");
 
-                        coordenadasDestinoAUX = ES.pideCadena("Introduce posición o pulsa Enter para volver atrás: ");
+                        posicionDestino = ES.pideCadena("Introduce posición "
+                                + "o pulsa Enter para volver atrás: ");
 
-                        if (!coordenadasDestinoAUX.equals("")) {
+                        if (!posicionDestino.equals("")) {                       //Si se ha introducido algo por teclado
 
-                            coordenadasDestino = getCoordenadas(coordenadasDestinoAUX);
+                            coordenadasDestino = getCoordenadas(posicionDestino);//Buscamos las coordenadas a donde vamos a mover la carta
 
-                            if (!j1.mover(coordenadas[0], coordenadas[1], coordenadasDestino[0], coordenadasDestino[1], mesa)) {
+                            if (!j1.mover(coordenadas[0], coordenadas[1],        //Intentamos mover la carta a la posición especificada. Si no se ha podido mover entra en el if
+                                    coordenadasDestino[0], coordenadasDestino[1],
+                                    mesa)) {
 
                                 ES.limpiarPantalla(21);
                                 System.out.println("\033[31mNo se ha podido mover la carta. La carta regresa al origen. \33[30m");
-                            } else {
+                            } 
+                            else {                                               //Si se ha movido correctamente
                                 ES.limpiarPantalla(21);
                             }
 
-                        } else {
+                        } else {                                                 //Si no se ha introducido nada por teclado
 
                             ES.limpiarPantalla(21);
                         }
@@ -248,33 +264,46 @@ public class Solitario {
 
         }
 
-        if (mesa.ganador()) {
+        if (mesa.ganador()) {                                                    //Comprobamos si se ha ganado la partida
             //Mensaje de ganador en color verde
-            System.out.println("\033[32mFELICIDADES: HAS GANADO " + j1.getNombre() + " :)\33[30m");
+            System.out.println("\033[32mFELICIDADES: HAS GANADO " + 
+                    j1.getNombre() + " :)\33[30m");
         } else {
-            System.out.println("\033[31mF. HAS PERDIDO otra vez... " + j1.getNombre() + " :(\33[30m");
+            System.out.println("\033[31mF. HAS PERDIDO otra vez... " + 
+                    j1.getNombre() + " :(\33[30m");
         }
     }
-
-    //Divide la posicion recibida en las coordenadas i, j que devuelve en un array
+    
+    /**
+     * Divide un String introducido por el usuario en las coordenadas i, j 
+     * @param posicion el String introducido por teclado 
+     * @return las coordenadas i,j (filas,columnas) como int[]
+     */
     private static int[] getCoordenadas(String posicion) throws Exception {
         posicion = posicion.toUpperCase().trim();
         int i, j;
 
-        if (posicion.length() != 2) {
-            throw new Exception("Has introducido una posicion / comando no válido.");
+        if (posicion.length() != 2) {                                            //Comprobamos que se hayan introducido solo 2 elementos (filas,columnas)
+            throw new Exception("Has introducido una posicion / "
+                    + "comando no válido.");
         }
 
-        i = Character.getNumericValue(posicion.charAt(0)) - 1;
-        j = posicion.charAt(1) - 64 - 1;
+        i = Character.getNumericValue(posicion.charAt(0)) - 1;                   //Parseamos el valor a int para obtener la coordenada i
+        j = posicion.charAt(1) - 64 - 1;                                         //Convertimos la letra en número restándole 64 y parseamos el valor a int para obtener la coordenada j
 
-        if ((i < 0 || i > 3) || (j < 0 || j > 4)) {
+        if ((i < 0 || i > 3) || (j < 0 || j > 4)) {                              //Comprobamos que las coordenadas estén dentro del rango de la matriz de la mesa
             throw new Exception("La posición introducida no es correcta.");
         }
 
-        return new int[]{i, j};
+        return new int[]{i, j};                                                  
     }
-
+    
+    /**
+     * (Funcion innecesaria)
+     * Pide al usuario elegir entre dos alternativas
+     * @param mensaje el String que se va a mostrar por pantalla
+     * @return la opción elegida como char
+     */
     private static char pideEleccion(String mensaje) {
         char eleccion;
         do {

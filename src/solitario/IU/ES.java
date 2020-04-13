@@ -10,6 +10,11 @@ public class ES {
 
     public static Scanner leer = new Scanner(System.in);
 
+    /**
+     * Pide al usuario que introduzca una cadena de caracteres
+     * @param mensaje el String que se va a mostrar por pantalla
+     * @return el valor introducido por teclado como String
+     */
     public static String pideCadena(String mensaje) {
 
         // Poner el mensaje
@@ -20,6 +25,11 @@ public class ES {
 
     }
 
+    /**
+     * Pide al usuario que introduzca un número
+     * @param mensaje el String que se va a mostrar por pantalla
+     * @return el valor introducido por teclado como int
+     */
     public static int pideNumero(String mensaje) {
 
         boolean repite;
@@ -45,7 +55,11 @@ public class ES {
 
         return toret;
     }
-
+    
+    /**
+     * Introduce una cantidad especificada de líneas en blanco para limpiar la pantalla
+     * @param lineas el número de líneas en blanco que se quieren introducir
+     */
     public static void limpiarPantalla(int lineas) {
 
         for (int i = 0; i < lineas; i++) {
