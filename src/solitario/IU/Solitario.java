@@ -193,7 +193,7 @@ public class Solitario {
                             break;
                     }
 
-                } while ("AYUDA".equals(comando));
+                } while ("AYUDA".equals(comando) || "SALIR".equals(comando));
 
                 tipoCarta = j1.comprobarPosicion(coordenadas[0], coordenadas[1], //Comprobamos el tipo de carta
                         mesa);
