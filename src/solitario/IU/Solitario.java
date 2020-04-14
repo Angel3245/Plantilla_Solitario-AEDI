@@ -22,7 +22,10 @@ public class Solitario {
         try {
             do {
 
-                System.out.println("\nSOLITARIO");
+                System.out.println(" ___  ___  _    ___ _____ _   ___ ___ ___  \n"
+                    + "/ __|/ _ \\| |  |_ _|_   _/_\\ | _ \\_ _/ _ \\ \n"
+                    + "\\__ \\ (_) | |__ | |  | |/ _ \\|   /| | (_) |\n"
+                    + "|___/\\___/|____|___| |_/_/ \\_\\_|_\\___\\___/ ");
 
                 op = menu(); //Pedimos una elección al usuario
 
@@ -260,14 +263,29 @@ public class Solitario {
 
         }
 
-        if (mesa.ganador()) {                                                    //Comprobamos si se ha ganado la partida
+        if (mesa.ganador()) {
             //Mensaje de ganador en color verde
-            System.out.println("\033[32mFELICIDADES: HAS GANADO " + 
-                    j1.getNombre() + " :)\33[30m");
+            System.out.println(""
+                    + "\u001B[32m    __  __                                          __    \n\u001B[0m"
+                    + "\u001B[32m   / / / /___ ______   ____ _____ _____  ____ _____/ /___ \n\u001B[0m"
+                    + "\u001B[32m  / /_/ / __ `/ ___/  / __ `/ __ `/ __ \\/ __ `/ __  / __ \\\n\u001B[0m"
+                    + "\u001B[32m / __  / /_/ (__  )  / /_/ / /_/ / / / / /_/ / /_/ / /_/ /\n\u001B[0m"
+                    + "\u001B[32m/_/ /_/\\__,_/____/   \\__, /\\__,_/_/ /_/\\__,_/\\__,_/\\____/ \n\u001B[0m"
+                    + "\u001B[32m                    /____/    \n");
+ 
+            System.out.println("\u001B[32mFELICIDADES: HAS GANADO " + j1.getNombre() + " :)\33[30m");
         } else {
-            System.out.println("\033[31mF. HAS PERDIDO otra vez... " + 
-                    j1.getNombre() + " :(\33[30m");
+ 
+            System.out.println(""
+                    + "\033[31m   __ __                           ___    __   \n\33[30m"
+                    + "\033[31m  / // /__ ____   ___  ___ _______/ (_)__/ /__ \n\33[30m"
+                    + "\033[31m / _  / _ `(_-<  / _ \\/ -_) __/ _  / / _  / _ \\\n\33[30m"
+                    + "\033[31m/_//_/\\_,_/___/ / .__/\\__/_/  \\_,_/_/\\_,_/\\___/\n\33[30m"
+                    + "\033[31m               /_/                             \n\33[30m");
+ 
+            System.out.println("\033[31mF. HAS PERDIDO otra vez... " + j1.getNombre() + " :(\33[30m");
         }
+    
     }
     
     /**
