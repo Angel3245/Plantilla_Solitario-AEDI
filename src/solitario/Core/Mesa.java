@@ -352,7 +352,7 @@ public class Mesa {
 
         for (int i = 0; i < DIM; i++) {
 
-            toret.append(i).append(1).append("\t"); // Números para indicar la fila
+            toret.append(i+1).append("\t"); // Números para indicar la fila
 
             for (int j = 0; j < DIM; j++) {
 
