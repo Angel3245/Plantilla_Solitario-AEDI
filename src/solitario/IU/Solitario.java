@@ -1,13 +1,9 @@
-/**
- * Representa el juego del solitario, con sus reglas.
- * Se recomienda una implementación modular.
- */
 package solitario.IU;
 
 import solitario.Core.Jugador;
 import solitario.Core.Mesa;
 
-/**
+/** Representa el juego del solitario, con sus reglas.
  *
  * @author AEDI
  */
@@ -33,7 +29,7 @@ public class Solitario {
                 switch (op) {
                     case 0:
                         System.out.println("FIN.");
-                        System.exit(0); //Acaba con la ejecución
+                        System.exit(0); //Acaba con la ejecución del programa
                         break;
                     case 1:
                         inicioPartida();
@@ -139,7 +135,7 @@ public class Solitario {
         char tipoCarta;                                                          //Indica si la posición intrododucida se corresponde con una carta del montón exterior o si no hay ninguna carta
         int[] coordenadas = new int[]{0, 0};                                     //Posición en coordenadas de la carta que se va a mover
         int[] coordenadasDestino = new int[]{0, 0};                              //Posición en coordenadas de a donde se va mover la carta
-        //char eleccion; (Innecesario)
+
         String comando;                                                          //String introducido por teclado por el usuario 
         String posicionDestino;
 
@@ -299,7 +295,7 @@ public class Solitario {
     }
     
     /**
-     * (Funcion innecesaria)
+     * @deprecated 
      * Pide al usuario elegir entre dos alternativas
      * @param mensaje el String que se va a mostrar por pantalla
      * @return la opción elegida como char

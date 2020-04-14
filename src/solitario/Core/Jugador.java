@@ -1,18 +1,20 @@
-/*
- * Representa al único jugador de la partida, identificado por el nombre 
- * Funcionalidad: le da la vuelta a una carta que está boca abajo, escoge una carta para moverla o al montón de descarte
- *                o la mueve encima de otra carta del interior
- */
 package solitario.Core;
 
-/**
+/** Representa al único jugador de la partida, identificado por el nombre 
+ *  Funcionalidad: le da la vuelta a una carta que está boca abajo, escoge una carta para moverla o al montón de descarte
+ *                o la mueve encima de otra carta del interior
  *
  * @author AEDI
  */
 public class Jugador {
 
     private String nombre;
-
+    
+    /**
+     * Constructor jugador
+     * @param nombre el nombre del jugador, como String
+     * 
+     */
     public Jugador(String nombre) {
         this.nombre = nombre;
     }
@@ -36,7 +38,7 @@ public class Jugador {
      * @return la letra indicadora de situación, como char
      */
 
-    //Este método se utilizara en la clase Solitario, de el obtendremos los mensajes
+    //Este método se utilizara en la clase Solitario
     public char comprobarPosicion(int i, int j, Mesa mesa) {
         if (j == 4) {
             return 'e';                   //La carta pertenece al montón exterior
@@ -72,7 +74,7 @@ public class Jugador {
      * @param iDestino la posición destino (fila) del montón interior o posición del montón exterior
      * @param jDestino la posición destino (columna) del montón interior o, si es 4 indicadora de que el destino es el montón exterior
      * @param mesa la mesa con la que se está jugando
-     * @return true si es movimiento se produce o false en caso contrario
+     * @return true si el movimiento se produce o false en caso contrario
      */
     public boolean mover(int iOrigen, int jOrigen, int iDestino, int jDestino, Mesa mesa) {
 

@@ -1,5 +1,9 @@
-/*
-* Representa la mesa de juego, donde estarán todas las cartas.
+package solitario.Core;
+
+import java.util.Stack;
+
+/** 
+*Representa la mesa de juego, donde estarán todas las cartas.
 * Tendrá dos partes diferenciadas:
 * - la parte interior, donde inicialmente estarán colocadas las cartas correctamente para jugar al solitario
 * - los montones exteriores, donde estarán colocadas las cartas por palo ordenadas de menor a mayor
@@ -8,38 +12,36 @@
 * - Un array de Pilas para representar los montones exteriores.
 * Funcionalidad: colocar las cartas para iniciar el juego, quitar una carta de la parte interior, colocar una carta en el interior,
 * colocar una carta en el montón exterior correspondiente, visualizar cartas en la mesa, etc
-
-La Pila es una estructura de datos que existe en Java y que se corresponde con la clase Stack. Por lo tanto debereis hacer uso de dicha
-clase para representar la mesa de juego, y en particular de los métodos que se indican a continuación (de ser necesarios):
-
-        public boolean empty();
-        // Produce: Si la pila está vacía devuelve true, sino false.
-        public Carta peek();
-        // Produce: Devuelve la Carta del tope de la pila, sin eliminarla de ella.
-        public Carta pop();
-        // Produce: Elimina la Carta del tope de la pila y la devuelve.
-        public void push(Carta item);
-        // Produce: Introduce la Carta en el tope de la pila.
- */
-package solitario.Core;
-
-import java.util.Stack;
-
-/**
- *
- * @author AEDI
+*
+*La Pila es una estructura de datos que existe en Java y que se corresponde con la clase Stack. Por lo tanto debereis hacer uso de dicha
+*clase para representar la mesa de juego, y en particular de los métodos que se indican a continuación (de ser necesarios):
+*
+*        public boolean empty();
+*        // Produce: Si la pila está vacía devuelve true, sino false.
+*       public Carta peek();
+*        // Produce: Devuelve la Carta del tope de la pila, sin eliminarla de ella.
+*        public Carta pop();
+*        // Produce: Elimina la Carta del tope de la pila y la devuelve.
+*        public void push(Carta item);
+*        // Produce: Introduce la Carta en el tope de la pila.
+* @author AEDI
  */
 public class Mesa {
 
-    private final int DIM = 4;
+    private final int DIM = 4; //Constante para indicar la dimensión de los arrays
 
-    private Stack<Carta>[][] montonInterior;
-    private Stack<Carta>[] montonExterior;
+    private Stack<Carta>[][] montonInterior; //Matriz de pilas del montón Interior
+    private Stack<Carta>[] montonExterior; //Array de pilas del montón Exterior
+    
     //Movimientos posibles
     private int numMovimientos;
     private StringBuilder movimientos;
-
-    public Mesa() {                      //Constructor pilas vacias (Mesa vacia)
+    
+    /**
+     * Constructor pilas vacias (Mesa vacia)
+     * Se llama a la función inicio() para llenarlas
+     */
+    public Mesa() {                      
 
         numMovimientos = 0;
 
@@ -55,14 +57,13 @@ public class Mesa {
             montonExterior[k] = new Stack<Carta>();
         }
 
-        inicio();           //Despues de construir mesa vacia, llamamos a metodo para rellenarla
+        inicio();           //Después de construir mesa vacia, llamamos a metodo para rellenarla
     }
 
     
     /**
-     * Crea la baraja y rellena la mesa colocando 16 catas boca abajo,
+     * Crea la baraja y rellena la mesa colocando 16 cartas boca abajo,
      * luego en las diagonales y luego otras 16 boca arriba 
-     * 
      */
     public void inicio() {              //Metodo que crea la baraja y rellena la mesa
 
@@ -130,7 +131,7 @@ public class Mesa {
                                 Carta debajo = mirarCartaMontonInterior(x, y);
 
                                 if (/*!debajo.getOculta() && */comprobarMayor(encima, debajo)) {
-                                    movimientos.append("\nInterior: " + encima.toString() + " -> " + debajo.toString());
+                                    movimientos.append("\nInterior: ").append(encima.toString()).append(" -> ").append(debajo.toString());
                                     numMovimientos++;
                                 }
                             }
@@ -151,7 +152,7 @@ public class Mesa {
 
                     //if (!encima.getOculta()) {
                     if (encima.getNumero() == 1) {
-                        movimientos.append("\nExterior: " + encima.toString());
+                        movimientos.append("\nExterior: ").append(encima.toString());
                         numMovimientos++;
                     } else {
                         for (int y = 0; y < DIM; y++) {
@@ -159,7 +160,7 @@ public class Mesa {
                                 Carta debajo = mirarCartaMontonExterior(y);
 
                                 if (comprobarMayor(debajo, encima)) {
-                                    movimientos.append("\nExterior: " + encima.toString() + " -> " + debajo.toString());
+                                    movimientos.append("\nExterior: ").append(encima.toString()).append(" -> ").append(debajo.toString());
                                     numMovimientos++;
                                 }
                             }
@@ -206,7 +207,7 @@ public class Mesa {
      *
      * @return el número de movimientos posibles (numMovimientos) como int
      */
-    public int getNumMovimientos() { //Método para el número de movimientos posibles de la mesa
+    public int getNumMovimientos() { 
         return numMovimientos;
     }
     
@@ -216,7 +217,7 @@ public class Mesa {
      *
      * @return los posibles movimientos de la mesa (movimientoa) como String
      */
-    public String getMovimientos() {  //Método que devuelve los movimientos que se pueden realizar
+    public String getMovimientos() {  
 
         return movimientos.toString();
     }
@@ -224,10 +225,11 @@ public class Mesa {
     
     /**
      * Devuelve una carta sacada del montón interior
-     *
+     * @param iOrigen la posición (fila) de la carta a sacar del montón interior 
+     * @param jOrigen la posición (columna) de la carta a sacar del montón interior
      * @return la carta del tope de la pila montonInterior, como Carta
      */
-    public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen) { //Metodo que saca la primera carta de un monton de la parte interior
+    public Carta sacarCartaMontonInterior(int iOrigen, int jOrigen) { 
 
         Carta c = montonInterior[iOrigen][jOrigen].pop();
 
@@ -258,7 +260,7 @@ public class Mesa {
     /**
      * Comprueba si un montón de la parte exterior está vacío
      * @param i la posición del montón exterior 
-     * @return true si el montón exterior está vacío y false en caso contrario
+     * @return true si el montón exterior está vacío o false en caso contrario
      */
     public boolean montonExteriorVacio(int i) {  
         return (montonExterior[i].empty());
@@ -268,7 +270,7 @@ public class Mesa {
      * Comprueba si un montón de la parte interior está vacío
      * @param i la posición (fila) del montón interior 
      * @param j la posición (columna) del montón interior
-     * @return true si el montón interior está vacío y false en caso contrario
+     * @return true si el montón interior está vacío o false en caso contrario
      */
     public boolean montonInteriorVacio(int i, int j) {  
         return (montonInterior[i][j].empty());
@@ -312,6 +314,7 @@ public class Mesa {
      * situa no esta vacío y la carta está oculta
      * @param i la posición (fila) del montón interior 
      * @param j la posición (columna) del montón interior
+     * @return true si se puede voltear la carta o false si no se puede voltear
      */
     private boolean comprobarVolteo(int i, int j) { //Comprueba si una carta debe ser volteada
         return (!montonInteriorVacio(i, j) && mirarCartaMontonInterior(i, j).getOculta());
@@ -320,7 +323,7 @@ public class Mesa {
     /**
      * Comprueba que todos los montones de la parte exterior tienen 10 cartas, 
      * situación en la cual se gana la partida
-     * 
+     * @return true si se ha ganado o false si se ha perdido
      */
     public boolean ganador() {
 
@@ -342,14 +345,14 @@ public class Mesa {
     public String toString() {
 
         StringBuilder toret = new StringBuilder();
-        String secuencia = "\t     A\t\t     B\t\t     C\t\t     D\t\t\t\t\t     E";
+        String secuencia = "\t     A\t\t     B\t\t     C\t\t     D\t\t\t\t\t     E"; // Letras para indicar la columna
 
         toret.append("\n");
         toret.append(secuencia).append("\n\n");
 
         for (int i = 0; i < DIM; i++) {
 
-            toret.append(i + 1 + "\t");
+            toret.append(i).append(1).append("\t"); // Números para indicar la fila
 
             for (int j = 0; j < DIM; j++) {
 
@@ -357,16 +360,16 @@ public class Mesa {
                     toret.append(montonInterior[i][j].peek()).append("\t");
                 } else {
 
-                    toret.append("     Ø\t\t");
+                    toret.append("     Ø\t\t"); // El conjunto vacío simboliza la inexistencia de una carta
                 }
 
             }
 
             if (!montonExterior[i].empty()) {
-                toret.append("\t\t\t" + montonExterior[i].peek());
+                toret.append("\t\t\t").append(montonExterior[i].peek());
             } else {
 
-                toret.append("\t\t\t     " + "Ø");
+                toret.append("\t\t\t     " + "Ø"); // El conjunto vacío simboliza la inexistencia de una carta
 
             }
             toret.append("\n");

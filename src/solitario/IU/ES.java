@@ -2,7 +2,7 @@ package solitario.IU;
 
 import java.util.Scanner;
 
-/**
+/** Contiene todas las clases relacionadas con la entrada y salida del juego.
  *
  * @author AEDI
  */

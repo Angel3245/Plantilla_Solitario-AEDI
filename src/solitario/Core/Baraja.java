@@ -1,8 +1,4 @@
-/*
-* Representa la baraja española, 40 cartas, 4 palos, valores de las cartas de 1 a 12 (excepto 8 y 9). 
-* Estructura: se utilizará un TAD adecuado
-* Funcionalidad: estando la baraja desordenada, devolverá la carta situada encima del montón de cartas
- */
+
 package solitario.Core;
 
 import java.util.ArrayList;
@@ -10,11 +6,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-
+/**Representa la baraja española, 40 cartas, 4 palos, valores de las cartas de 1 a 12 (excepto 8 y 9). 
+* Estructura: se utilizará un TAD adecuado
+* Funcionalidad: estando la baraja desordenada, devolverá la carta situada encima del montón de cartas
+*
+* @author AEDI
+ */
 public class Baraja {
 	
     List<Carta> baraja;
-
+    
+    /**
+     * Constructor baraja (crea las 40 cartas de la baraja española)
+     */
     public Baraja(){
         
         //Se recorren los distintos palos
@@ -28,7 +32,7 @@ public class Baraja {
                 if(i == 8) i = 10;
                 
                 //Creamos cada una de las cartas boca abajo    
-                Carta c = new Carta(i,p,true);
+                Carta c = new Carta(i,p);
                 
                 //Se añade la carta al array
                 baraja.add(c);
@@ -48,15 +52,15 @@ public class Baraja {
      */
     public void barajar(){
 
-    //Baraja el arraylist baraja y le pasamos un objeto aleatorio
-    Collections.shuffle(this.baraja,new Random());
+        //Baraja el arraylist baraja y le pasamos un objeto aleatorio
+        Collections.shuffle(this.baraja,new Random());
 
-    //La barajo 4 veces más (esta parte va al gusto)
-    Collections.shuffle(this.baraja,new Random());
-    Collections.shuffle(this.baraja,new Random());
-    Collections.shuffle(this.baraja,new Random());
-    Collections.shuffle(this.baraja,new Random());
-    
+        //La barajo 4 veces más (esta parte va al gusto)
+        Collections.shuffle(this.baraja,new Random());
+        Collections.shuffle(this.baraja,new Random());
+        Collections.shuffle(this.baraja,new Random());
+        Collections.shuffle(this.baraja,new Random());
+
     }
     
     
@@ -73,12 +77,8 @@ public class Baraja {
         return c;
     }
     
-    //METODOS QUE PUEDE QUE SEAN ELIMINADOS EN LA VERSIÓN FINAL
-
-    //Devuelve la cantidad de cartas que ACTUALMENTE quedan en la baraja
-    //IMPORTANTE cuidado al utilizar este método en bucles  
     /**
-     * Devuelve el númeoro de caratas de la baraja
+     * Devuelve el número de cartas actual de la baraja 
      *
      * @return el número de cartas de la baraja, como int
      */
@@ -95,11 +95,11 @@ public class Baraja {
     @Override
     public String toString(){
 
-    StringBuilder toret = new StringBuilder();
-        for(int i = 0 ; i<baraja.size();i++){
-            toret.append(baraja.get(i) + "\n");
-        }
-    return toret.toString();
+        StringBuilder toret = new StringBuilder();
+            for(int i = 0 ; i<baraja.size();i++){
+                toret.append(baraja.get(i) + "\n");
+            }
+        return toret.toString();
     }
     
 }

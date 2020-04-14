@@ -2,7 +2,7 @@ package solitario.IU;
 
 import static solitario.IU.Solitario.menuInicio;
 
-/**
+/** El main del programa.
  *
  * @author AEDI
  */

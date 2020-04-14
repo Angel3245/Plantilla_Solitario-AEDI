@@ -1,9 +1,6 @@
-/*
- * Representa una carta, formada por un número y su palo correspondiente
- */
 package solitario.Core;
 
-/**
+/**Representa una carta, formada por un número y su palo correspondiente
  *
  * @author AEDI
  */
@@ -13,11 +10,16 @@ public class Carta {
     private Palos palo;
     private boolean oculta;
     
-    public Carta(int num,Palos pal,boolean ocult){
+    /**
+     * Constructor carta
+     * @param num el número de la carta como int
+     * @param pal el palo de la carta como Palo
+     */
+    public Carta(int num,Palos pal){
     
         this.numero = num;
         this.palo = pal;        
-        this.oculta = ocult;
+        this.oculta = true;
     
     }    
     
@@ -50,7 +52,7 @@ public class Carta {
     
     /**
      * Cambia el estado de la carta entre oculta y visible
-     *@param ocult indica el estado anterior de la carta
+     * @param ocult indica el estado al que se quiere establecer la carta
      * 
      */
     public void setOculta(boolean ocult){
@@ -58,7 +60,7 @@ public class Carta {
     }
     
     /**
-     * Cambia el estado de la carta entre oculta y visible
+     * Invierte el estado de la carta (entre oculta y visible)
      * 
      */
     public void voltear(){
